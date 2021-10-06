@@ -150,6 +150,9 @@ export default {
       }
     }
   },
+  mounted:{
+    // 待解决下拉文章列表和点击后跳出详情定位错误
+  },
    methods: {
     // 子组件点击事件传过来文章编号
     showChildClickTab(data){
