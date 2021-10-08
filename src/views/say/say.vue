@@ -248,8 +248,6 @@ export default {
 };
 </script>
 <style lang="scss">
-body {
-}
 .el-col {
   border-radius: 4px;
 }
