@@ -1,7 +1,7 @@
 <template>
   <!--  tab 分三块主内容显示 -->
   <div>
-    <div class="top" >
+    <div class="top">
       <div class="top-left">
         <div v-for="tab in tabs" v-bind:key="tab">
           <div class="tab">
@@ -16,9 +16,16 @@
         </div>
       </div>
       <div class="top-right" @mouseleave="userCircleHoverOut">
-        <div :class="['hover-tab', { isdisplay: !isShowTab }]" @mouseleave="userCircleHoverOut">
+        <div
+          :class="['hover-tab', { isdisplay: !isShowTab }]"
+          @mouseleave="userCircleHoverOut"
+        >
           <div class="hover-tab-line"></div>
           <div class="hover-tab-items">
+            <div class="hover-tab-write hover-tab-item" @click="toWritePage">
+              <img src="../../assets/svg/yly_编辑.svg" alt="" />
+              <span>写文章</span>
+            </div>
             <div class="hover-tab-center hover-tab-item" @click="toUserCenter">
               <img src="../../assets/svg/User.svg" alt="" />
               <span>用户中心</span>
@@ -38,11 +45,7 @@
         >
           Login
         </button>
-        <button
-          v-else
-          class="user-circle"
-          @mouseenter="userCircleHoverOn"
-        >
+        <button v-else class="user-circle" @mouseenter="userCircleHoverOn">
           {{ this.$store.getters.getUserInfo.user.username }}
         </button>
       </div>
@@ -51,11 +54,12 @@
   </div>
 </template>
 <script>
-import say from "../say/say.vue"
-import cool from "../cool/cool.vue"
-import indexContent from "../indexContent/indexContent.vue"
-import userCenter from "../userCenter/userCenter.vue"
-import activity from "../activity/acticity.vue"
+import say from "../say/say.vue";
+import cool from "../cool/cool.vue";
+import indexContent from "../indexContent/indexContent.vue";
+import userCenter from "../userCenter/userCenter.vue";
+import activity from "../activity/acticity.vue";
+import writePage from "../../components/writePage.vue"
 
 export default {
   components: {
@@ -63,12 +67,13 @@ export default {
     cool,
     indexContent,
     userCenter,
-    activity
+    activity,
+    writePage
   },
   name: "Index",
   data() {
     return {
-      currentTab: "首页",
+      currentTab: "畅所言",
       tabs: ["首页", "畅所言", "酷Cool", "活动"],
       isShowTab: false,
     };
@@ -78,36 +83,39 @@ export default {
       var resultComponent;
       switch (this.currentTab) {
         case "首页":
-          resultComponent = "index-content"
-          break
+          resultComponent = "index-content";
+          break;
         case "畅所言":
-          resultComponent = "say"
-          break
+          resultComponent = "say";
+          break;
         case "酷Cool":
-          resultComponent = "cool"
-          break
+          resultComponent = "cool";
+          break;
         case "活动":
-          resultComponent = "activity"
-          break
+          resultComponent = "activity";
+          break;
         case "userCenter":
-          resultComponent = "userCenter"
+          resultComponent = "userCenter";
       }
-      return resultComponent
+      return resultComponent;
     },
   },
   methods: {
     login() {
-      this.$router.push({ path: "login" })
+      this.$router.push({ path: "login" });
     },
     userCircleHoverOn() {
-      this.isShowTab = true
+      this.isShowTab = true;
     },
     userCircleHoverOut() {
-      this.isShowTab = false
+      this.isShowTab = false;
     },
-    toUserCenter(){
-      this.currentTab = "userCenter"
-    }
+    toUserCenter() {
+      this.currentTab = "userCenter";
+    },
+    toWritePage() {
+      this.$router.push({ path: "writePage" });
+    },
   },
 };
 </script>
@@ -184,7 +192,7 @@ export default {
 
     .hover-tab-items {
       position: absolute;
-      top: 46%;
+      top: 38%;
       left: 22px;
 
       .hover-tab-item {
@@ -223,7 +231,6 @@ export default {
     left: 200px;
 
     z-index: 15;
-
   }
 }
 </style>
