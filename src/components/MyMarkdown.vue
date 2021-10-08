@@ -1,6 +1,6 @@
 <template>
   <div id="my-markdown" class="markdown-body">
-    <vue-markdown :source="url"></vue-markdown>
+    <vue-markdown :source="content"></vue-markdown>
   </div>
 </template>
 <script>
@@ -8,7 +8,7 @@ import VueMarkdown from "vue-markdown";
 
 export default {
   name: "MyMarkdown",
-  props: ["url"],
+  props: ["content"],
   components: {
     VueMarkdown
   },

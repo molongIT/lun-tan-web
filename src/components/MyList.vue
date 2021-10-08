@@ -1,7 +1,7 @@
 <template>
   <div id="myList" class="myList">
-    <div v-for="item in list" :key="item.articleId">
-      <div class="box" @click="sendMsgToParent(item.articleIndex)">
+    <div v-for="item,index in list" :key="item.id">
+      <div class="box" @click="sendMsgToParent(index)">
         <div class="box-head">
           <img class="box--head-img" :src="item.articleImg" alt="" />
           <div class="box-head-right">
@@ -12,7 +12,7 @@
         <div class="box-content">
           <MyMarkdown
             class="box-content-word"
-            :url="item.articleWord"
+            :content="item.articleDescription"
           ></MyMarkdown>
         </div>
       </div>
@@ -35,6 +35,8 @@ export default {
   components: {
     MyMarkdown,
   },
+  created () {
+  }
 };
 </script>
 <style scoped>
@@ -45,7 +47,8 @@ export default {
   height: 300px;
   background: #ffffff;
   border-radius: 50px;
-  box-shadow: 2px 2px 20px #e8e8e9
+  box-shadow: 2px 2px 20px #e8e8e9;
+  overflow: hidden;
 }
 .box-head {
   /* background-color: red; */
@@ -56,32 +59,34 @@ export default {
 }
 .box--head-img {
   float: left;
-  border-radius: 50%;
-  width: 50px;
+  border-radius: 60%;
+  width: 40px;
+  height: 40px;
 }
 .box-head-right {
   float: left;
   /* background-color: orange; */
   width: 250px;
   height: 100px;
+  margin-left: 10px;
   font-size: 25px;
 }
 .box-head-right-title {
   font-weight: bolder;
   position: relative;
-  top: 15px;
+  top: 8px;
 }
 .box-head-right-data {
   font-size: 15px;
   font-weight: bolder;
   position: relative;
-  top: 25px;
+  top: 13px;
 }
 .box-content {
-
   width: 970px;
   height: 350px;
   /* background-color: pink; */
+  position: relative;
 }
 .box-content-word {
   text-align: left;
