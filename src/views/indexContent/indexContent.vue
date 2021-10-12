@@ -182,6 +182,6 @@ export default {
 .about-right {
   display: inline-block;
   height: 100%;
-  margin-left: 100px;
+  margin-left: 1%;
 }
 </style>

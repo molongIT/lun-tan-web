@@ -69,8 +69,7 @@
       </div>
     </el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="21">
-      <div class="article-right">
-        <div v-show="!isShowArticleTab" class="article">
+      <div class="article-right" v-show="!isShowArticleTab">
           <div class="article-right-area1">
             <div
               :class="['article-right-query', { topTabFixed: isTopTabFixed }]"
@@ -148,7 +147,6 @@
               </li>
             </div>
           </div>
-        </div>
       </div>
     </el-col>
   </el-row>
@@ -268,7 +266,7 @@ export default {
   width: 175px;
   height: 1500px;
   position: relative;
-  top: 25px;
+  top: 30px;
   left: 30px;
 }
 
@@ -315,29 +313,17 @@ export default {
 }
 
 .article-right {
+  display: inline-block;
+  background: rgb(249, 249, 249);
+  position: relative;
+  top: 50px;
+  padding: auto;
+  width: 230%;
 }
 
 .choosed {
   font-weight: 900;
   font-size: 20px;
-}
-
-/* 中间板块 */
-/* .bg-purple-light {
-  background: rgb(249, 249, 249);
-  width: 100%;
-  position: relative;
-  top: 50px;
-  height: 1400px;
-} */
-
-.article {
-  background: rgb(249, 249, 249);
-  width: 100.5%;
-  position: relative;
-  top: 50px;
-  padding: auto;
-  display: inline-block;
 }
 
 .article-right-area1 {
@@ -347,9 +333,10 @@ export default {
   .article-right-query {
     background-color: #e9f1f9;
     height: 65px;
-    width: 950px;
+    width: 95%;
     border-radius: 0px 50px 50px 0px;
-    padding-left: 150px;
+    margin-left: 5%;
+    // padding-left: 150px;
   }
 
   .article-right-query i {
@@ -364,7 +351,7 @@ export default {
 
   .article-right-content {
     display: inline-block;
-    width: 100%;
+    width: 95%;
     margin-top: 35px;
     margin-left: 40px;
   }
@@ -379,6 +366,7 @@ export default {
   position: fixed;
   top: 0px;
   z-index: 15;
+  left: 10%;
 }
 
 .article-right-area2 {
@@ -386,11 +374,11 @@ export default {
   width: 30%;
   position: absolute;
   top: 10px;
-  right: 20px;
+  right: 2px;
 }
 
 .search {
-  width: 500px;
+  width: 80%;
   height: 50px;
 }
 
@@ -398,7 +386,7 @@ export default {
   input {
     -web-kit-appearance: none;
     -moz-appearance: none;
-    width: 245px;
+    width: 70%;
     height: 33px;
     font-size: 19px;
     float: left;
@@ -414,7 +402,7 @@ export default {
 }
 
 .search-icon {
-  width: 40px;
+  width: 15%;
   height: 40px;
   float: left;
   margin-left: 30px;
@@ -445,7 +433,7 @@ export default {
   font-family: "微软雅黑", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 24px;
+  font-size: 120%;
   line-height: 40px;
   padding-left: 40px;
 }
@@ -465,12 +453,11 @@ export default {
 }
 
 .hot-title {
-  width: 453px;
+  width: 90%;
   height: 50px;
   font-family: "Arial Black", "Arial Normal", Arial, sans-serif;
-  font-weight: 900;
   font-style: normal;
-  font-size: 28px;
+  font-size: 80%;
   color: black;
   background-color: #8881f5;
   line-height: 50px;
@@ -487,7 +474,7 @@ export default {
   font-family: "Comic Sans MS Normal", "Comic Sans MS", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 23px;
+  font-size: 70%;
   margin: 5px 80px;
 }
 

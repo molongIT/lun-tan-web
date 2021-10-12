@@ -43,7 +43,8 @@ export default {
 .box {
   float: left;
   margin: 10px;
-  width: 1000px;
+  /* 适应父组件的宽度 */
+  width: 100%;
   height: 300px;
   background: #ffffff;
   border-radius: 50px;
