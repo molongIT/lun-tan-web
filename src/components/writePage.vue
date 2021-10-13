@@ -1,12 +1,11 @@
 <template>
   <div id="root">
     <div class="top">
-      <input :value="this.articleTitleInput" placeholder="请输入文章标题" />
+      <input v-model="article.articleTitle" placeholder="请输入文章标题" />
       <el-select
         class="select"
-        v-model="value"
+        v-model="article.articleCategoyId"
         placeholder="请选择"
-        @change="selectChange"
       >
         <el-option
           v-for="item in options"
@@ -19,13 +18,16 @@
       <el-button class="add" type="primary" @click="publish">发表</el-button>
     </div>
     <div class="area1">
-      <textarea v-model="descriptionInput" placeholder="请输入文章描述信息">
+      <textarea
+        v-model="article.articleDescription"
+        placeholder="请输入文章描述信息"
+      >
       </textarea>
-      <div v-html="compileMarkdown2"></div>
+      <div v-html="compileMarkdown"></div>
     </div>
     <div class="area2">
-      <textarea v-model="articleInput" placeholder="请输入文章内容"> </textarea>
-      <div v-html="compileMarkdown"></div>
+      <textarea v-model="article.articleUrl" placeholder="请输入文章内容"> </textarea>
+      <div v-html="compileMarkdown2"></div>
     </div>
   </div>
 </template>
@@ -35,13 +37,12 @@ export default {
   name: "writePage",
   data() {
     return {
-      artile: {
+      article: {
         articleTitle: "",
-        articleCategory:"",
+        articleDescription: "",
+        articleCategoyId: '',
+        articleUrl: '',
       },
-      articleTitleInput: "",
-      descriptionInput: "",
-      articleInput: "",
       options: [
         {
           value: "1",
@@ -70,28 +71,21 @@ export default {
     publish() {
       this.$http
         .post("/article", this.article)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          window.alert("添加成功");
+          this.$router.push({ path: "index" });
         })
         .catch((res) => {
           console.log(res);
         });
     },
-    selectChange(val) {
-      let obj = {};
-      obj = this.options.find((item) => {
-        return item.value === val;
-      });
-      this.article.articleCategory = obj.val;
-      console.log(this.article)
-    },
   },
   computed: {
     compileMarkdown() {
-      return marked(this.articleInput, { sanitize: true });
+      return marked(this.article.articleDescription, { sanitize: true });
     },
     compileMarkdown2() {
-      return marked(this.descriptionInput, { sanitize: true });
+      return marked(this.article.articleUrl, { sanitize: true });
     },
   },
 };

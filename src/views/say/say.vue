@@ -37,7 +37,7 @@
             {{ articles[curShowArticleIndex].articleTitle }}
           </div>
           <div class="article-content-word" v-if="articles.length > 0">
-            <MyMarkdown :content="articles[curShowArticleIndex].articleWord">
+            <MyMarkdown :content="articles[curShowArticleIndex].articleUrl">
             </MyMarkdown>
           </div>
         </div>
@@ -163,14 +163,18 @@ export default {
   },
   created() {
     let _this = this;
+    // api获取所有的文章列表
     this.$http.get(this.$api.Articles.GetAllArticles).then((result) => {
       for (let i = 0; i < result.data.length; i++) {
-        if (result.data[i].articleUrl != null) {
+        if (result.data[i].articleUrl != null && result.data[i].articleUrl.startsWith('http')) {
           _this.$http.get(result.data[i].articleUrl).then((res) => {
             if (res != null) {
-              result.data[i].articleWord = res.data;
+              result.data[i].articleUrl = res.data;
             }
           });
+        }else if(result.data[i].articleUrl == null){
+          // 解决因为null出现绑定bug问题
+          result.data[i].articleUrl = ''
         }
       }
       _this.articles = result.data;
@@ -205,6 +209,8 @@ export default {
     // 子组件点击事件传过来文章编号
     showChildClickTab(data) {
       this.curShowArticleIndex = data;
+      console.log(data);
+      console.log(this.articles[data]);
       this.isShowArticleTab = true;
       // 修改body的overflow属性
       document.querySelector("body").setAttribute("style", "overflow:hidden;");
@@ -232,6 +238,7 @@ export default {
       articles: "",
       tipArray: ["破站第一版发布了~", "请期待我们的版本二~"],
       isShowArticleTab: false,
+      // 当前点击详情的文章
       curShowArticleIndex: 0,
       // 是否固定
       isLeftTabFixed: false,
