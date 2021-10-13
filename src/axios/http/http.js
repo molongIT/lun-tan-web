@@ -43,8 +43,8 @@ export default {
      * @param auth 是否需要带登录信息
      * @returns {AxiosPromise<any>}
      */
-    get(url) {
-        return axios.get(url);
+    get(url,data) {
+        return axios.get(url,{params:data});
     },
 
     /**

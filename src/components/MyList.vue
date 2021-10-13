@@ -6,8 +6,9 @@
           <img class="box--head-img" :src="item.articleImg" alt="" />
           <div class="box-head-right">
             <div class="box-head-right-title">{{ item.articleAuthor }}</div>
-            <div class="box-head-right-data">{{ item.createTime }}</div>
+            <div class="box-head-right-date">{{ item.createTime }}</div>
           </div>
+          <div class="box-head-title">{{ item.articleTitle }}</div>
         </div>
         <div class="box-content">
           <MyMarkdown
@@ -53,10 +54,11 @@ export default {
 }
 .box-head {
   /* background-color: red; */
-  margin: 10px;
-  padding: 10px;
-  width: 400px;
-  height: 100px;
+  margin: 10px 10px 0px 10px;
+  padding: 10px 10px 0px 10px;
+  width: 90%;
+  height: 18%;
+  border-bottom: rgb(255 236 236) 1px solid;
 }
 .box--head-img {
   float: left;
@@ -68,26 +70,35 @@ export default {
   float: left;
   /* background-color: orange; */
   width: 250px;
-  height: 100px;
+  height: 50%;
   margin-left: 10px;
   font-size: 25px;
 }
 .box-head-right-title {
   font-weight: bolder;
   position: relative;
-  top: 8px;
+  font-size: 70%;
+  top: 2%;
 }
-.box-head-right-data {
-  font-size: 15px;
+.box-head-right-date {
+  font-size: 40%;
+  font-weight: bolder;
+  top: 3px;
+}
+.box-head-title{
+  display: inline-block;
+  position: relative;
+  top: 20%;
+  font-family: "微软雅黑", sans-serif;
   font-weight: bolder;
   position: relative;
-  top: 13px;
 }
 .box-content {
   width: 970px;
   height: 350px;
   /* background-color: pink; */
   position: relative;
+  margin-top: 2%;
 }
 .box-content-word {
   text-align: left;

@@ -162,24 +162,7 @@ export default {
     MyMarkdown,
   },
   created() {
-    let _this = this;
-    // api获取所有的文章列表
-    this.$http.get(this.$api.Articles.GetAllArticles).then((result) => {
-      for (let i = 0; i < result.data.length; i++) {
-        if (result.data[i].articleUrl != null && result.data[i].articleUrl.startsWith('http')) {
-          _this.$http.get(result.data[i].articleUrl).then((res) => {
-            if (res != null) {
-              result.data[i].articleUrl = res.data;
-            }
-          });
-        }else if(result.data[i].articleUrl == null){
-          // 解决因为null出现绑定bug问题
-          result.data[i].articleUrl = ''
-        }
-      }
-      _this.articles = result.data;
-      console.log(_this.articles);
-    });
+    this.queryArticles()
   },
   mounted() {
     // 待解决下拉文章列表和点击后跳出详情定位错误
@@ -188,6 +171,15 @@ export default {
   destroyed() {
     // 离开该页面需要移除这个监听的事件，不然会报错。
     window.removeEventListener("scroll", this.handleScroll);
+  },
+  watch:{
+    curCategoryTab:function(){
+      this.queryArticles()
+    },
+    curQueryWhere:function(){
+      this.queryArticles()
+    }
+
   },
   methods: {
     handleScroll() {
@@ -219,11 +211,63 @@ export default {
       this.isShowArticleTab = false;
       document.querySelector("body").setAttribute("style", "overflow:auto;");
     },
+    // 请求文章列表
+    queryArticles(){
+      let _this = this;
+    // api获取所有的文章列表
+    //  携带articleCategoryId、queryWrapper
+    let articleCategoryId = 1
+    let queryWrapper = 1
+    switch(this.curCategoryTab){
+      case '今日墙':
+          articleCategoryId = 1
+          break
+      case '运动':
+         articleCategoryId = 2
+          break
+      case '恋爱':
+          articleCategoryId = 3
+          break
+      case '学习':
+         articleCategoryId = 4
+          break
+      case '请教':
+         articleCategoryId = 5
+         break
+    }
+    switch(this.curQueryWhere){
+      case '最新':
+          queryWrapper = 1
+          break
+      case '最热':
+         queryWrapper = 2
+          break
+      case '收藏':
+         queryWrapper = 3
+          break
+    }
+    var articleQueryDto = {'articleCategoryId':articleCategoryId,'queryWrapper':queryWrapper}
+    this.$http.get(this.$api.Articles.GetAllArticles,articleQueryDto).then((result) => {
+      for (let i = 0; i < result.data.length; i++) {
+        if (result.data[i].articleUrl != null && result.data[i].articleUrl.startsWith('http')) {
+          _this.$http.get(result.data[i].articleUrl).then((res) => {
+            if (res != null) {
+              result.data[i].articleUrl = res.data;
+            }
+          });
+        }else if(result.data[i].articleUrl == null){
+          // 解决因为null出现绑定bug问题
+          result.data[i].articleUrl = ''
+        }
+      }
+      _this.articles = result.data;
+    })
+    }
   },
   data() {
     return {
       category: ["今日墙", "运动", "恋爱", "学习", "请教"],
-      queryWhere: ["最新", "最热", "关注", "收藏"],
+      queryWhere: ["最新", "最热", "收藏"],
       // articles: [
       //   {
       //     articleImg: "https://cdn.yocoto.cn/FjtXYx5K7FPXwdXXcSqKzpv11lI9",
@@ -248,9 +292,9 @@ export default {
       },
       curCategoryTab: "今日墙",
       curQueryWhere: "最新",
-    };
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="scss">
 .el-col {
