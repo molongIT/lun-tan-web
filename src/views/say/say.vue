@@ -385,7 +385,7 @@ export default {
 }
 
 .search {
-  width: 80%;
+  width: 100%;
   height: 50px;
 }
 
@@ -412,7 +412,7 @@ export default {
   width: 15%;
   height: 40px;
   float: left;
-  margin-left: 30px;
+  margin-left: 5%;
 }
 
 .tips {

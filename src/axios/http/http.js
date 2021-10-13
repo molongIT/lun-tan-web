@@ -6,7 +6,7 @@ axios.interceptors.request.use(config => {
     // 2. 当然你也可以在这个位置 加入你的后端需要的用户授权信息
     config.headers['Content-Type'] = 'application/json'
     //如果有 token 就带上
-    config.headers.Authorization = localStorage.getItem('Authorization');
+    config.headers.Authorization = sessionStorage.getItem('Authorization');
     return config
 }, error => {
     return Promise.reject(error)
