@@ -22,9 +22,11 @@
             </div>
           </div>
           <div class="actions">
-            <div class="like">
+            <div class="like" @click="addLike">
               <img class="icon" src="../../assets/svg/赞.svg" alt="" />
-              <span class="like-nums">99</span>
+              <span class="like-nums">{{
+                articles[curShowArticleIndex].articleLikeNums
+              }}</span>
             </div>
             <div class="view">
               <img class="icon" src="../../assets/svg/观看.svg" alt="" />
@@ -42,8 +44,27 @@
           </div>
         </div>
       </div>
+      <div class="article-tab-comment">
+        <div class="comment-publish">
+          <input class="comment-publish-input" type="text" />
+          <button class="comment-publish-btn">发表</button>
+        </div>
+        <div
+          class="comment"
+          v-for="comment in this.comments"
+          :key="comment.articleCommentId"
+        >
+          <div class="comment-top">
+            <img class="comment-img" :src="comment.articleImg" alt="" />
+            <div class="comment-top-right">
+              <div class="comment-username">{{ comment.articleAuthor }}</div>
+              <div class="comment-date">{{ comment.createTime }}</div>
+            </div>
+          </div>
 
-      <div class="article-tab-comment"></div>
+          <div class="comment-text">{{ comment.articleTitle }}</div>
+        </div>
+      </div>
     </div>
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
       <div :class="['article-left']">
@@ -70,83 +91,81 @@
     </el-col>
     <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="21">
       <div class="article-right" v-show="!isShowArticleTab">
-          <div class="article-right-area1">
-            <div
-              :class="['article-right-query', { topTabFixed: isTopTabFixed }]"
+        <div class="article-right-area1">
+          <div :class="['article-right-query', { topTabFixed: isTopTabFixed }]">
+            <!-- 查询条件 -->
+            <i
+              v-for="item in queryWhere"
+              :key="item"
+              :class="{ queryTabActive: curQueryWhere == item }"
+              @click="curQueryWhere = item"
             >
-              <!-- 查询条件 -->
-              <i
-                v-for="item in queryWhere"
-                :key="item"
-                :class="{ queryTabActive: curQueryWhere == item }"
-                @click="curQueryWhere = item"
-              >
-                {{ item }}
-              </i>
-            </div>
-            <div class="article-right-content">
-              <MyList
-                :list="this.articles"
-                v-on:listenChildEvent="showChildClickTab"
-              ></MyList>
-            </div>
+              {{ item }}
+            </i>
           </div>
+          <div class="article-right-content">
+            <MyList
+              :list="this.articles"
+              v-on:listenChildEvent="showChildClickTab"
+            ></MyList>
+          </div>
+        </div>
 
-          <div class="article-right-area2">
-            <div class="search">
-              <div class="search-input">
-                <input type="text" />
-              </div>
-              <svg
-                class="search-icon"
-                t="1633229029693"
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="2418"
-                width="200"
-                height="200"
-              >
-                <path
-                  d="M622.4 682.453333l60.330667-60.309333 256.405333 256.405333-60.330667 60.309334z"
-                  fill="#616161"
-                  p-id="2419"
-                ></path>
-                <path
-                  d="M426.666667 426.666667m-341.333334 0a341.333333 341.333333 0 1 0 682.666667 0 341.333333 341.333333 0 1 0-682.666667 0Z"
-                  fill="#616161"
-                  p-id="2420"
-                ></path>
-                <path
-                  d="M692.266667 753.92l60.309333-60.330667 185.514667 185.514667-60.330667 60.330667z"
-                  fill="#37474F"
-                  p-id="2421"
-                ></path>
-                <path
-                  d="M426.666667 426.666667m-277.333334 0a277.333333 277.333333 0 1 0 554.666667 0 277.333333 277.333333 0 1 0-554.666667 0Z"
-                  fill="#64B5F6"
-                  p-id="2422"
-                ></path>
-                <path
-                  d="M573.866667 302.933333c-36.266667-42.666667-89.6-68.266667-147.2-68.266666s-110.933333 25.6-147.2 68.266666c-8.533333 8.533333-6.4 23.466667 2.133333 29.866667 8.533333 8.533333 23.466667 6.4 29.866667-2.133333C341.333333 296.533333 381.866667 277.333333 426.666667 277.333333s85.333333 19.2 115.2 53.333334c4.266667 4.266667 10.666667 8.533333 17.066666 8.533333 4.266667 0 10.666667-2.133333 12.8-4.266667 8.533333-8.533333 8.533333-23.466667 2.133334-32z"
-                  fill="#BBDEFB"
-                  p-id="2423"
-                ></path>
-              </svg>
+        <div class="article-right-area2">
+          <div class="search">
+            <div class="search-input">
+              <input type="text" />
             </div>
-            <div class="tips">
-              <div class="tips-item-title">Tip:</div>
-              <li class="tips-item" v-for="item in tipArray" :key="item">
-                {{ item }}
-              </li>
-            </div>
-            <div class="hot">
-              <div class="hot-title">Hop things</div>
-              <li class="hot-item" v-for="item in tipArray" :key="item">
-                {{ item }}
-              </li>
-            </div>
+            <svg
+              class="search-icon"
+              t="1633229029693"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="2418"
+              width="200"
+              height="200"
+            >
+              <path
+                d="M622.4 682.453333l60.330667-60.309333 256.405333 256.405333-60.330667 60.309334z"
+                fill="#616161"
+                p-id="2419"
+              ></path>
+              <path
+                d="M426.666667 426.666667m-341.333334 0a341.333333 341.333333 0 1 0 682.666667 0 341.333333 341.333333 0 1 0-682.666667 0Z"
+                fill="#616161"
+                p-id="2420"
+              ></path>
+              <path
+                d="M692.266667 753.92l60.309333-60.330667 185.514667 185.514667-60.330667 60.330667z"
+                fill="#37474F"
+                p-id="2421"
+              ></path>
+              <path
+                d="M426.666667 426.666667m-277.333334 0a277.333333 277.333333 0 1 0 554.666667 0 277.333333 277.333333 0 1 0-554.666667 0Z"
+                fill="#64B5F6"
+                p-id="2422"
+              ></path>
+              <path
+                d="M573.866667 302.933333c-36.266667-42.666667-89.6-68.266667-147.2-68.266666s-110.933333 25.6-147.2 68.266666c-8.533333 8.533333-6.4 23.466667 2.133333 29.866667 8.533333 8.533333 23.466667 6.4 29.866667-2.133333C341.333333 296.533333 381.866667 277.333333 426.666667 277.333333s85.333333 19.2 115.2 53.333334c4.266667 4.266667 10.666667 8.533333 17.066666 8.533333 4.266667 0 10.666667-2.133333 12.8-4.266667 8.533333-8.533333 8.533333-23.466667 2.133334-32z"
+                fill="#BBDEFB"
+                p-id="2423"
+              ></path>
+            </svg>
           </div>
+          <div class="tips">
+            <div class="tips-item-title">Tip:</div>
+            <li class="tips-item" v-for="item in tipArray" :key="item">
+              {{ item }}
+            </li>
+          </div>
+          <div class="hot">
+            <div class="hot-title">Hop things</div>
+            <li class="hot-item" v-for="item in tipArray" :key="item">
+              {{ item }}
+            </li>
+          </div>
+        </div>
       </div>
     </el-col>
   </el-row>
@@ -162,7 +181,7 @@ export default {
     MyMarkdown,
   },
   created() {
-    this.queryArticles()
+    this.queryArticles();
   },
   mounted() {
     // 待解决下拉文章列表和点击后跳出详情定位错误
@@ -172,14 +191,13 @@ export default {
     // 离开该页面需要移除这个监听的事件，不然会报错。
     window.removeEventListener("scroll", this.handleScroll);
   },
-  watch:{
-    curCategoryTab:function(){
-      this.queryArticles()
+  watch: {
+    curCategoryTab: function () {
+      this.queryArticles();
     },
-    curQueryWhere:function(){
-      this.queryArticles()
-    }
-
+    curQueryWhere: function () {
+      this.queryArticles();
+    },
   },
   methods: {
     handleScroll() {
@@ -201,8 +219,6 @@ export default {
     // 子组件点击事件传过来文章编号
     showChildClickTab(data) {
       this.curShowArticleIndex = data;
-      console.log(data);
-      console.log(this.articles[data]);
       this.isShowArticleTab = true;
       // 修改body的overflow属性
       document.querySelector("body").setAttribute("style", "overflow:hidden;");
@@ -212,61 +228,93 @@ export default {
       document.querySelector("body").setAttribute("style", "overflow:auto;");
     },
     // 请求文章列表
-    queryArticles(){
+    queryArticles() {
       let _this = this;
-    // api获取所有的文章列表
-    //  携带articleCategoryId、queryWrapper
-    let articleCategoryId = 1
-    let queryWrapper = 1
-    switch(this.curCategoryTab){
-      case '今日墙':
-          articleCategoryId = 1
-          break
-      case '运动':
-         articleCategoryId = 2
-          break
-      case '恋爱':
-          articleCategoryId = 3
-          break
-      case '学习':
-         articleCategoryId = 4
-          break
-      case '请教':
-         articleCategoryId = 5
-         break
-    }
-    switch(this.curQueryWhere){
-      case '最新':
-          queryWrapper = 1
-          break
-      case '最热':
-         queryWrapper = 2
-          break
-      case '收藏':
-         queryWrapper = 3
-          break
-    }
-    var articleQueryDto = {'articleCategoryId':articleCategoryId,'queryWrapper':queryWrapper}
-    this.$http.get(this.$api.Articles.GetAllArticles,articleQueryDto).then((result) => {
-      for (let i = 0; i < result.data.length; i++) {
-        if (result.data[i].articleUrl != null && result.data[i].articleUrl.startsWith('http')) {
-          _this.$http.get(result.data[i].articleUrl).then((res) => {
-            if (res != null) {
-              result.data[i].articleUrl = res.data;
-            }
-          });
-        }else if(result.data[i].articleUrl == null){
-          // 解决因为null出现绑定bug问题
-          result.data[i].articleUrl = ''
-        }
+      // api获取所有的文章列表
+      //  携带articleCategoryId、queryWrapper
+      let articleCategoryId = 1;
+      let queryWrapper = 1;
+      switch (this.curCategoryTab) {
+        case "今日墙":
+          articleCategoryId = 1;
+          break;
+        case "运动":
+          articleCategoryId = 2;
+          break;
+        case "恋爱":
+          articleCategoryId = 3;
+          break;
+        case "学习":
+          articleCategoryId = 4;
+          break;
+        case "请教":
+          articleCategoryId = 5;
+          break;
       }
-      _this.articles = result.data;
-    })
-    }
+      switch (this.curQueryWhere) {
+        case "最新":
+          queryWrapper = 1;
+          break;
+        case "最热":
+          queryWrapper = 2;
+          break;
+        case "收藏":
+          queryWrapper = 3;
+          break;
+      }
+      var articleQueryDto = {
+        articleCategoryId: articleCategoryId,
+        queryWrapper: queryWrapper,
+      };
+      this.$http
+        .get(this.$api.Articles.GetAllArticles, articleQueryDto)
+        .then((result) => {
+          for (let i = 0; i < result.data.length; i++) {
+            if (
+              result.data[i].articleUrl != null &&
+              result.data[i].articleUrl.startsWith("http")
+            ) {
+              _this.$http.get(result.data[i].articleUrl).then((res) => {
+                if (res != null) {
+                  result.data[i].articleUrl = res.data;
+                }
+              });
+            } else if (result.data[i].articleUrl == null) {
+              // 解决因为null出现绑定bug问题
+              result.data[i].articleUrl = "";
+            }
+          }
+          _this.articles = result.data;
+        });
+    },
+    // 点赞
+    addLike() {
+      this.$http
+        .put("/article/like/" + this.articles[this.curShowArticleIndex].id)
+        .then((res) => {
+          console.log(res);
+          this.articles[this.curShowArticleIndex].articleLikeNums++;
+        })
+        .catch((rej) => {
+          console.log(rej);
+        });
+    },
   },
   data() {
     return {
       category: ["今日墙", "运动", "恋爱", "学习", "请教"],
+      comments: [
+        {
+          articleCommentId: "123",
+          userId: "123",
+          userAvatar: "https://cdn.yocoto.cn/FjtXYx5K7FPXwdXXcSqKzpv11lI9",
+          username: "pxlong",
+          articleId: "123",
+          createTime: "2021-10-1 12:20",
+          articleCommentText:
+            "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
+        },
+      ],
       queryWhere: ["最新", "最热", "收藏"],
       // articles: [
       //   {
@@ -292,9 +340,9 @@ export default {
       },
       curCategoryTab: "今日墙",
       curQueryWhere: "最新",
-    }
-  }
-}
+    };
+  },
+};
 </script>
 <style lang="scss">
 .el-col {
@@ -486,7 +534,7 @@ export default {
   font-style: normal;
   font-size: 120%;
   line-height: 40px;
-  padding-left: 40px;
+  padding-left: 10%;
 }
 
 .hot {
@@ -543,7 +591,7 @@ export default {
   overflow: auto;
 
   .article-tab-content {
-    width: 70%;
+    width: 73%;
     background-color: white;
     border: #d3dce6 1px solid;
     box-shadow: 3px 3px 15px 1px #c7c6c6;
@@ -595,11 +643,10 @@ export default {
       .actions {
         display: inline-flex;
         // background-color: red;
-        width: 15%;
+        width: 20%;
         height: 70%;
         margin-top: 13px;
         float: right;
-        margin-right: 20px;
         flex-direction: row;
         justify-content: space-around;
         margin-top: 30px;
@@ -632,11 +679,51 @@ export default {
   .article-tab-comment {
     display: inline-block;
 
-    width: 20%;
+    width: 22%;
     height: 100%;
     background-color: red;
     position: absolute;
-    right: 50px;
+    right: 1%;
+  }
+
+  .comment-publish {
+    background-color: green;
+    width: 80%;
+    height: 100px;
+    margin: 30px auto;
+  }
+
+  .comment {
+    height: 2000px;
+    width: 80%;
+    background-color: blue;
+    margin: 0px auto;
+
+    .comment-top {
+      .comment-img {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+      }
+
+      .comment-top-right {
+        background-color: purple;
+
+        .comment-username {
+          display: inline-block;
+          width: 50px;
+          height: 100px;
+          background-color: white;
+        }
+
+        .comment-date{
+           display: inline-block;
+          width: 50px;
+          height: 50px;
+          background-color: white;
+        }
+      }
+    }
   }
 }
 </style>
