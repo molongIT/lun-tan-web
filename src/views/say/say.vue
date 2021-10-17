@@ -218,10 +218,18 @@ export default {
     },
     // 子组件点击事件传过来文章编号
     showChildClickTab(data) {
+      let _this = this
       this.curShowArticleIndex = data;
       this.isShowArticleTab = true;
       // 修改body的overflow属性
       document.querySelector("body").setAttribute("style", "overflow:hidden;");
+      // 根据文章id获取所有相关的评论
+      this.$http.get('/article/comment',{articleId: this.articles[data].id})
+      .then( e=>{
+        _this.comments = e.data.data
+        console.log(e.data.data)
+        console.log(_this.comments)
+      })
     },
     closeAlert() {
       this.isShowArticleTab = false;
@@ -305,7 +313,7 @@ export default {
       category: ["今日墙", "运动", "恋爱", "学习", "请教"],
       comments: [
         {
-          articleCommentId: "123",
+          articleCommentId: "1",
           userId: "123",
           userAvatar:
             "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
@@ -316,7 +324,7 @@ export default {
             "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
         },
         {
-          articleCommentId: "123",
+          articleCommentId: "2",
           userId: "123",
           userAvatar:
             "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
@@ -327,7 +335,7 @@ export default {
             "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
         },
         {
-          articleCommentId: "123",
+          articleCommentId: "3",
           userId: "123",
           userAvatar:
             "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
