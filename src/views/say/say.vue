@@ -46,8 +46,13 @@
       </div>
       <div class="article-tab-comment">
         <div class="comment-publish">
-          <input class="comment-publish-input" type="text" />
-          <button class="comment-publish-btn">发表</button>
+          <input
+            class="comment-publish-input"
+            v-model="commentTextInput"
+          />
+          <button class="comment-publish-btn" @click="publishComment()">
+            发表
+          </button>
         </div>
         <div
           class="comment"
@@ -218,22 +223,18 @@ export default {
     },
     // 子组件点击事件传过来文章编号
     showChildClickTab(data) {
-      let _this = this
       this.curShowArticleIndex = data;
       this.isShowArticleTab = true;
       // 修改body的overflow属性
       document.querySelector("body").setAttribute("style", "overflow:hidden;");
       // 根据文章id获取所有相关的评论
-      this.$http.get('/article/comment',{articleId: this.articles[data].id})
-      .then( e=>{
-        _this.comments = e.data.data
-        console.log(e.data.data)
-        console.log(_this.comments)
-      })
+      this.queryCommentsByArticeId(this.articles[data].id);
     },
     closeAlert() {
       this.isShowArticleTab = false;
       document.querySelector("body").setAttribute("style", "overflow:auto;");
+      // 评论置为空
+      this.comments = null;
     },
     // 请求文章列表
     queryArticles() {
@@ -307,6 +308,36 @@ export default {
           console.log(rej);
         });
     },
+    // 根据文章id获取所有相关的评论
+    queryCommentsByArticeId(articleId) {
+      let _this = this;
+      this.$http.get("/article/comment", { articleId }).then((e) => {
+        _this.comments = e.data.data;
+      });
+    },
+    // 发表评论
+    publishComment() {
+      let _this = this;
+      var ArticleComment = {
+        userId: "",
+        articleId: _this.articles[this.curShowArticleIndex].id,
+        articleCommentText: _this.commentTextInput,
+      };
+
+      console.log(_this.$store.getters.getUserInfo + '2');
+      if (_this.$store.getters.getUserInfo.user != null) {
+        console.log(_this.$store.getters.getUserInfo.user);
+        ArticleComment.userId = _this.$store.getters.getUserInfo.user.id;
+      }
+      this.$http.post("/article/comment", ArticleComment).then(() => {
+        window.alert("评论成功");
+        _this.queryCommentsByArticeId(
+          _this.articles[_this.curShowArticleIndex].id,
+        );
+        // 清空输入框
+        _this.commentTextInput = ''
+      });
+    },
   },
   data() {
     return {
@@ -323,41 +354,9 @@ export default {
           articleCommentText:
             "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
         },
-        {
-          articleCommentId: "2",
-          userId: "123",
-          userAvatar:
-            "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
-          username: "pxlong",
-          articleId: "123",
-          createTime: "2021-10-1 12:20",
-          articleCommentText:
-            "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
-        },
-        {
-          articleCommentId: "3",
-          userId: "123",
-          userAvatar:
-            "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
-          username: "pxlong",
-          articleId: "123",
-          createTime: "2021-10-1 12:20",
-          articleCommentText:
-            "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
-        },
       ],
+      commentTextInput: "",
       queryWhere: ["最新", "最热", "收藏"],
-      // articles: [
-      //   {
-      //     articleImg: "https://cdn.yocoto.cn/FjtXYx5K7FPXwdXXcSqKzpv11lI9",
-      //     articleTitle: "什么是新型冠状病毒？又是如何传播的？",
-      //     createTime: "2021/3/18 18:10:00",
-      //     articleWord: "",
-      //     articleUrl:
-      //       "https://yocoto.oss-cn-beijing.aliyuncs.com/%E4%BB%80%E4%B9%88%E6%98%AF%E6%96%B0%E5%9E%8B%E5%86%A0%E7%8A%B6%E7%97%85%E6%AF%92%EF%BC%9F%E5%8F%88%E6%98%AF%E5%A6%82%E4%BD%95%E4%BC%A0%E6%92%AD%E7%9A%84%EF%BC%9F.md",
-      //     articleAuthor: "pxlong",
-      //   },
-      // ],
       articles: "",
       tipArray: ["破站第一版发布了~", "请期待我们的版本二~"],
       isShowArticleTab: false,
