@@ -32,7 +32,7 @@
             </div>
             <div class="hover-tab-logout hover-tab-item">
               <img src="../../assets/svg/Log_Out.svg" alt="" />
-              <span>退出</span>
+              <span @click="logout()">退出</span>
             </div>
           </div>
         </div>
@@ -104,6 +104,15 @@ export default {
     login() {
       this.$router.push({ path: "login" });
     },
+    logout(){
+      // 本地剔除token
+      sessionStorage.removeItem("Authorization")
+      sessionStorage.removeItem("userInfo")
+      this.$store.state.userInfo = ''
+      // 请求服务端剔除token
+      window.alert("退出～")
+      
+    },
     userCircleHoverOn() {
       this.isShowTab = true;
     },
@@ -165,7 +174,7 @@ export default {
 
 .top-right {
   float: left;
-  /* background-color: green; */
+  // background-color: green; 
   width: 20%;
   height: 100%;
   font-size: 150%;
@@ -176,7 +185,7 @@ export default {
     background-color: #ffffff;
     position: absolute;
     top: 110px;
-    left: 143px;
+    right: 6.5%;
 
     box-shadow: 5px 5px 10px rgb(179, 179, 179);
     z-index: 14;
@@ -228,8 +237,7 @@ export default {
 
     position: absolute;
     top: 10px;
-    left: 200px;
-
+    right: 6%;
     z-index: 15;
   }
 }

@@ -448,6 +448,7 @@ export default {
   top: 50px;
   padding: auto;
   width: 230%;
+  border-radius: 32px;
 }
 
 .choosed {

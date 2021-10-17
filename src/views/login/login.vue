@@ -41,9 +41,11 @@
                 this.$http
                     .post("/auth",this.form)
                     .then((res) => {
-                        // 将用户token和user保存到vuex中
+                        // 将用户token和user保存到sessionStorage中
                         sessionStorage.setItem('Authorization', 'Bearer ' + res.data.token);
                         sessionStorage.setItem('userInfo', JSON.stringify(res.data.userInfo));
+                        // 将userInfo也保存到vuex中，解决跳转后用户信息不能立即更新问题
+                        this.$store.state.userInfo = JSON.stringify(res.data.userInfo)
                         _this.toBlogPage();
                     })
                     .catch((err) => {
@@ -53,8 +55,8 @@
             },
 
             toBlogPage(){
-                this.$router.replace({ path: '/'})
                 window.alert("登录成功")
+                this.$router.push({ path: '/Index'})
             }
         }
     }
