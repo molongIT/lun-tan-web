@@ -55,14 +55,14 @@
           :key="comment.articleCommentId"
         >
           <div class="comment-top">
-            <img class="comment-img" :src="comment.articleImg" alt="" />
-            <div class="comment-top-right">
-              <div class="comment-username">{{ comment.articleAuthor }}</div>
-              <div class="comment-date">{{ comment.createTime }}</div>
+            <div class="comment-img-div">
+              <img class="comment-img" :src="comment.userAvatar" alt="" />
             </div>
+            <div class="comment-username">{{ comment.username }}</div>
           </div>
 
-          <div class="comment-text">{{ comment.articleTitle }}</div>
+          <div class="comment-text">{{ comment.articleCommentText }}</div>
+          <div class="comment-date">{{ comment.createTime }}</div>
         </div>
       </div>
     </div>
@@ -307,7 +307,30 @@ export default {
         {
           articleCommentId: "123",
           userId: "123",
-          userAvatar: "https://cdn.yocoto.cn/FjtXYx5K7FPXwdXXcSqKzpv11lI9",
+          userAvatar:
+            "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
+          username: "pxlong",
+          articleId: "123",
+          createTime: "2021-10-1 12:20",
+          articleCommentText:
+            "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
+        },
+        {
+          articleCommentId: "123",
+          userId: "123",
+          userAvatar:
+            "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
+          username: "pxlong",
+          articleId: "123",
+          createTime: "2021-10-1 12:20",
+          articleCommentText:
+            "爱卡经典款垃圾袋里看见啊是肯德基撒空间的空间啊书看得见哦额放假哦麻烦你放假啊",
+        },
+        {
+          articleCommentId: "123",
+          userId: "123",
+          userAvatar:
+            "https://cdn.dribbble.com/users/3255340/avatars/normal/07b3ceed75c83eae4ba41c32d3488ccb.jpg?1632725829&compress=1&resize=64x64",
           username: "pxlong",
           articleId: "123",
           createTime: "2021-10-1 12:20",
@@ -676,53 +699,91 @@ export default {
       }
     }
   }
+
+  // ---评论---
   .article-tab-comment {
     display: inline-block;
-
     width: 22%;
     height: 100%;
-    background-color: red;
+    background-color: white;
     position: absolute;
     right: 1%;
   }
 
   .comment-publish {
-    background-color: green;
-    width: 80%;
-    height: 100px;
-    margin: 30px auto;
+    width: 100%;
+    margin: 30px 10%;
+    margin-top: 170px;
+    .comment-publish-input {
+      width: 60%;
+      height: 25px;
+      border-radius: 5px;
+    }
+    .comment-publish-btn {
+      font-size: 16px;
+      margin-left: 5%;
+      border: none;
+      border-radius: 5px;
+      background-color: #f082ac;
+      color: white;
+      font-weight: bolder;
+      font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+    }
   }
 
   .comment {
-    height: 2000px;
     width: 80%;
-    background-color: blue;
-    margin: 0px auto;
+    margin: 14px auto;
 
     .comment-top {
-      .comment-img {
+      display: block;
+      width: 100%;
+      margin: 2px;
+
+      .comment-img-div {
         display: inline-block;
-        width: 50px;
-        height: 50px;
-      }
-
-      .comment-top-right {
-        background-color: purple;
-
-        .comment-username {
+        width: 32px;
+        height: 32px;
+        .comment-img {
           display: inline-block;
-          width: 50px;
-          height: 100px;
-          background-color: white;
-        }
-
-        .comment-date{
-           display: inline-block;
-          width: 50px;
-          height: 50px;
-          background-color: white;
+          width: 100%;
+          height: auto;
+          border-radius: 50%;
+          opacity: 1;
+          margin-top: 5px;
         }
       }
+      .comment-username {
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-block;
+        margin-left: 10px;
+        margin-top: 6%;
+        position: absolute;
+      }
+    }
+    .comment-text {
+      display: block;
+      color: #000;
+      padding-left: 40px;
+      font-size: 14px;
+      font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+      padding-bottom: 5px;
+    }
+
+    .comment-date {
+      display: block;
+      padding-left: 40px;
+      font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      color: #6e6d7a;
     }
   }
 }
