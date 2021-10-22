@@ -15,6 +15,14 @@
         >
         </el-option>
       </el-select>
+      <!-- 上传图片辅助功能 -->
+      <input
+        class="upload-img"
+        type="file"
+        value="选择文件"
+        ref="fileUpload"
+        @change="uploadFile"
+      />
       <el-button class="add" type="primary" @click="publish">发表</el-button>
     </div>
     <div class="area1">
@@ -26,13 +34,17 @@
       <div v-html="compileMarkdown"></div>
     </div>
     <div class="area2">
-      <textarea v-model="article.articleUrl" placeholder="请输入文章内容"> </textarea>
+      <textarea v-model="article.articleUrl" placeholder="请输入文章内容">
+      </textarea>
       <div v-html="compileMarkdown2"></div>
     </div>
   </div>
 </template>
 <script>
 import marked from "marked";
+var COS = require("cos-js-sdk-v5");
+import axios from "axios";
+
 export default {
   name: "writePage",
   data() {
@@ -40,8 +52,8 @@ export default {
       article: {
         articleTitle: "",
         articleDescription: "",
-        articleCategoyId: '',
-        articleUrl: '',
+        articleCategoyId: "",
+        articleUrl: "",
       },
       options: [
         {
@@ -79,6 +91,51 @@ export default {
           console.log(res);
         });
     },
+    uploadFile(e) {
+      const file = e.target.files[0];
+      const bucketPath = `avatar/${file.name}`; // Key: 对象键（Object 的名称），对象在存储桶中的唯一标识
+      const cos = new COS({
+        // 请求后端api获取临时凭证
+        getAuthorization: (options, callback) => {
+          axios.get("/cos", null).then((res) => {
+            const data = res.data;
+            const obj = {
+              TmpSecretId: data.credentials.tmpSecretId,
+              TmpSecretKey: data.credentials.tmpSecretKey,
+              XCosSecurityToken: data.credentials.sessionToken,
+              StartTime: data.startTime, // 时间戳，单位秒，如：1580000000
+              ExpiredTime: data.expiredTime, // 时间戳，单位秒，如：1580000900
+            };
+            callback(obj);
+          });
+        },
+      });
+      // 分片上传
+      cos.sliceUploadFile(
+        {
+          Bucket: "luntan-1304511484", // 存储桶名称，必须;Bucket 格式：test-1250000000
+          Region: "ap-nanjing", // 存储桶所在地域, 必须
+          Key: bucketPath,
+          StorageClass: "STANDARD", //官方默认值
+          Body: file, // 上传文件对象
+          onProgress: function (progressData) {
+            console.log(progressData);
+          },
+        },
+        function (err, data) {
+          console.log(err || data);
+          const fileUrl = "http://" + data.Location;
+          var mdUrl = "![avatar](" + fileUrl + ")";
+          var input = document.createElement("input"); // js创建一个input输入框
+          input.value = mdUrl; // 将需要复制的文本赋值到创建的input输入框中
+          document.body.appendChild(input); // 将输入框暂时创建到实例里面
+          input.select(); // 选中输入框中的内容
+          document.execCommand("Copy"); // 执行复制操作
+          document.body.removeChild(input); // 最后删除实例中临时创建的input输入框，完成复制操作
+          alert("已复制好，可贴粘。");
+        }
+      );
+    },
   },
   computed: {
     compileMarkdown() {
@@ -88,6 +145,7 @@ export default {
       return marked(this.article.articleUrl, { sanitize: true });
     },
   },
+  created() {},
 };
 </script>
 <style scoped lang="scss">
@@ -168,5 +226,10 @@ input {
 
 .add {
   margin-left: 20px;
+}
+
+.upload-img {
+  width: 20%;
+  margin-left: 2%;
 }
 </style>
