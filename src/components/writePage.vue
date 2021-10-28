@@ -23,6 +23,7 @@
         ref="fileUpload"
         @change="uploadFile"
       />
+      <el-progress :percentage="this.percent"></el-progress>
       <el-button class="add" type="primary" @click="publish">发表</el-button>
     </div>
     <div class="area1">
@@ -44,7 +45,6 @@
 import marked from "marked";
 var COS = require("cos-js-sdk-v5");
 import axios from "axios";
-
 export default {
   name: "writePage",
   data() {
@@ -77,6 +77,7 @@ export default {
           label: "运动",
         },
       ],
+      percent: 0,
     };
   },
   methods: {
@@ -92,6 +93,7 @@ export default {
         });
     },
     uploadFile(e) {
+      let _this = this;
       const file = e.target.files[0];
       const bucketPath = `avatar/${file.name}`; // Key: 对象键（Object 的名称），对象在存储桶中的唯一标识
       const cos = new COS({
@@ -119,7 +121,8 @@ export default {
           StorageClass: "STANDARD", //官方默认值
           Body: file, // 上传文件对象
           onProgress: function (progressData) {
-            console.log(progressData);
+           console.log("11");console.log(_this.percent);
+            _this.percent=progressData.percent * 100;
           },
         },
         function (err, data) {
