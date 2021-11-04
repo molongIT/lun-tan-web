@@ -41,6 +41,8 @@
           <div class="article-content-word" v-if="articles.length > 0">
             <MyMarkdown :content="articles[curShowArticleIndex].articleUrl">
             </MyMarkdown>
+            <HR style="margin-top:40px;width:91%;FILTER: progid:DXImageTransform.Microsoft.Shadow(color:yellow,direction:145,strength:15)" width="90%" color=#987cb9 SIZE=1>
+            </HR>
           </div>
         </div>
       </div>
@@ -629,6 +631,7 @@ export default {
     border-radius: 20px;
     padding: 10px;
     display: inline-block;
+    padding-bottom: 400px;
 
     .article-tab-close {
       width: 30px;
