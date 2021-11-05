@@ -181,6 +181,7 @@ export default {
   width: 50%;
   height: 45px;
   line-height: 45px;
+  cursor: pointer;
 }
 
 .register-title {
@@ -190,11 +191,9 @@ export default {
   width: 50%;
   height: 45px;
   line-height: 45px;
+  cursor: pointer;
 }
 
-.label {
-  color: black;
-  font-weight: bolder;
-}
+
 </style> -->
 
