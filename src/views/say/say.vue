@@ -121,7 +121,7 @@
         <div class="article-right-area2">
           <div class="search">
             <div class="search-input">
-              <input type="text" />
+              <input type="text" v-model="searchText"/>
             </div>
             <svg
               class="search-icon"
@@ -132,6 +132,7 @@
               p-id="2418"
               width="200"
               height="200"
+              @click="searchArticles()"
             >
               <path
                 d="M622.4 682.453333l60.330667-60.309333 256.405333 256.405333-60.330667 60.309334z"
@@ -340,6 +341,15 @@ export default {
         _this.commentTextInput = ''
       });
     },
+    searchArticles(){
+      let _this = this
+      console.log(_this.searchText);
+      this.$http
+        .get('article/search', {keywords: _this.searchText})
+        .then((result) => {
+          _this.articles = result.data;
+        });
+    }
   },
   data() {
     return {
@@ -372,6 +382,9 @@ export default {
       },
       curCategoryTab: "今日墙",
       curQueryWhere: "最新",
+
+      // 查询条件
+      searchText:'1'
     };
   },
 };
@@ -525,7 +538,8 @@ export default {
     color: rgb(0, 0, 0);
     border-radius: 30px;
     border: 2px solid #a0ccee;
-    padding-left: 7px;
+    padding-left: 10px;
+    text-align: center;
   }
 
   input:focus {
@@ -538,6 +552,7 @@ export default {
   height: 40px;
   float: left;
   margin-left: 5%;
+  cursor: pointer;
 }
 
 .tips {

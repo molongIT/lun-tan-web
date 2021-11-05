@@ -1,16 +1,17 @@
 <template>
   <div class="login-container">
     <el-form ref="form" :model="form" label-width="80px" class="login-form">
-      <div class="title">
+      <div class="title">Love and sharing</div>
+      <div class="model">
         <div
-          class="login-title"
+          class="login-model"
           :class="{ chooseModel: model == 'login' }"
           @click="model = 'login'"
         >
           登录
         </div>
         <div
-          class="register-title"
+          class="register-model"
           :class="{ chooseModel: model == 'register' }"
           @click="model = 'register'"
         >
@@ -116,13 +117,26 @@ export default {
 <style lang="scss">
 .login-form {
   width: 350px;
-  margin: 160px auto; /* 上下间距160px，左右自动居中*/
+  margin: 110px auto; /* 上下间距160px，左右自动居中*/
   background-color: rgb(38, 38, 38); /* 透明背景色 */
-  padding: 50px 100px 100px;
+  padding: 40px 100px;
   border-radius: 10px; /* 圆角 */
   position: absolute;
-  right: 5%;
+  // right: 5%;
   top: 8%;
+  left: 30%;
+
+  .title {
+    display: inline-block;
+    color: white;
+    font-size: 35px;
+    font-weight: bolder;
+    margin: 20px;
+    // text-align: center;
+    margin-left: 10%;
+    width: 100%;
+
+  }
 
   .chooseModel {
     color: white;
@@ -165,7 +179,7 @@ export default {
 
 /* 标题 */
 
-.title {
+.model {
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
@@ -174,7 +188,7 @@ export default {
   height: 45px;
   font-size: 20px;
 }
-.login-title {
+.login-model {
   display: inline-block;
   color: white;
   text-align: center;
@@ -184,16 +198,14 @@ export default {
   cursor: pointer;
 }
 
-.register-title {
+.register-model {
   display: inline-block;
-  color: #303133;
+  color: white;
   text-align: center;
   width: 50%;
   height: 45px;
   line-height: 45px;
   cursor: pointer;
 }
-
-
 </style> -->
 
