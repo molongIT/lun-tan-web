@@ -3,9 +3,9 @@
     <div v-for="item,index in list" :key="item.id">
       <div class="box" @click="sendMsgToParent(index)">
         <div class="box-head">
-          <img class="box--head-img" :src="item.articleImg" alt="" />
+          <img class="box--head-img" :src="item.avatar" alt="" />
           <div class="box-head-right">
-            <div class="box-head-right-title">{{ item.articleAuthor }}</div>
+            <div class="box-head-right-title">{{ item.username }}</div>
             <div class="box-head-right-date">{{ item.createTime }}</div>
           </div>
           <div class="box-head-title">{{ item.articleTitle }}</div>

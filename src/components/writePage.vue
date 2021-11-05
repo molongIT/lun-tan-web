@@ -4,7 +4,7 @@
       <input v-model="article.articleTitle" placeholder="请输入文章标题" />
       <el-select
         class="select"
-        v-model="article.articleCategoyId"
+        v-model="article.articleCategoryId"
         placeholder="请选择"
       >
         <el-option
@@ -52,8 +52,9 @@ export default {
       article: {
         articleTitle: "",
         articleDescription: "",
-        articleCategoyId: "",
+        articleCategoryId: "",
         articleUrl: "",
+        userId:"",
       },
       options: [
         {
@@ -82,6 +83,9 @@ export default {
   },
   methods: {
     publish() {
+      // todo:抽取公共方法：是否已经登陆。
+      this.article.userId = this.$store.getters.getUserInfo.user.id
+      console.log(this.article);
       this.$http
         .post("/article", this.article)
         .then(() => {
@@ -148,7 +152,12 @@ export default {
       return marked(this.article.articleUrl, { sanitize: true });
     },
   },
-  created() {},
+  created() {
+    if(this.$store.getters.getUserInfo == ''){
+        alert("请先登录")
+         this.$router.push({ path: "login" });
+      }
+  },
 };
 </script>
 <style scoped lang="scss">

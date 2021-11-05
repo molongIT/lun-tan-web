@@ -45,9 +45,13 @@
         >
           Login
         </button>
-        <button v-else class="user-circle" @mouseenter="userCircleHoverOn">
-          {{ this.$store.getters.getUserInfo.user.username }}
-        </button>
+        <img
+          v-else
+          class="user-avatar"
+          :src="this.$store.getters.getUserInfo.user.avatar"
+          alt=""
+          @mouseenter="userCircleHoverOn"
+        />
       </div>
     </div>
     <component :is="currentTabComponent" class="content"></component>
@@ -59,7 +63,7 @@ import cool from "../cool/cool.vue";
 import indexContent from "../indexContent/indexContent.vue";
 import userCenter from "../userCenter/userCenter.vue";
 import activity from "../activity/acticity.vue";
-import writePage from "../../components/writePage.vue"
+import writePage from "../../components/writePage.vue";
 
 export default {
   components: {
@@ -68,7 +72,7 @@ export default {
     indexContent,
     userCenter,
     activity,
-    writePage
+    writePage,
   },
   name: "Index",
   data() {
@@ -104,14 +108,13 @@ export default {
     login() {
       this.$router.push({ path: "login" });
     },
-    logout(){
+    logout() {
       // 本地剔除token
-      sessionStorage.removeItem("Authorization")
-      sessionStorage.removeItem("userInfo")
-      this.$store.state.userInfo = ''
+      sessionStorage.removeItem("Authorization");
+      sessionStorage.removeItem("userInfo");
+      this.$store.state.userInfo = "";
       // 请求服务端剔除token
-      window.alert("退出～")
-      
+      window.alert("退出～");
     },
     userCircleHoverOn() {
       this.isShowTab = true;
@@ -174,7 +177,7 @@ export default {
 
 .top-right {
   float: left;
-  // background-color: green; 
+  // background-color: green;
   width: 20%;
   height: 100%;
   font-size: 150%;
@@ -236,6 +239,17 @@ export default {
     box-shadow: 4px 4px 5px #888888;
 
     position: absolute;
+    top: 10px;
+    right: 6%;
+    z-index: 15;
+  }
+
+  .user-avatar{
+     border-radius: 50%;
+    width: 63px;
+    height: 58px;
+    margin: 75px 20% 0 0;
+     position: absolute;
     top: 10px;
     right: 6%;
     z-index: 15;
