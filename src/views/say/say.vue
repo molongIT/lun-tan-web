@@ -121,7 +121,7 @@
         <div class="article-right-area2">
           <div class="search">
             <div class="search-input">
-              <input type="text" v-model="searchText"/>
+              <input type="text" placeholder="根据文章标题查询" v-model="searchText"/>
             </div>
             <svg
               class="search-icon"
@@ -169,8 +169,8 @@
           </div>
           <div class="hot">
             <div class="hot-title">Hop things</div>
-            <li class="hot-item" v-for="item in tipArray" :key="item">
-              {{ item }}
+            <li class="hot-item" v-for="article in hotArticles" :key="article.id">
+              {{ article.articleTitle }}
             </li>
           </div>
         </div>
@@ -189,7 +189,10 @@ export default {
     MyMarkdown,
   },
   created() {
+    // 初始化文章列表，使用默认查询条件
     this.queryArticles();
+    // 初始化HotArticles列表
+    this.queryHotArticles();
   },
   mounted() {
     // 待解决下拉文章列表和点击后跳出详情定位错误
@@ -299,6 +302,13 @@ export default {
           _this.articles = result.data;
         });
     },
+    queryHotArticles(){
+       let _this = this;
+      this.$http.get("/article/hot").then((e) => {
+        _this.hotArticles = e.data.data;
+        console.log(_this.hotArticles);
+      });
+    },
     // 点赞
     addLike() {
       this.$http
@@ -370,6 +380,7 @@ export default {
       commentTextInput: "",
       queryWhere: ["最新", "最热", "收藏"],
       articles: "",
+      hotArticles:"",
       tipArray: ["破站第一版发布了~", "请期待我们的版本二~"],
       isShowArticleTab: false,
       // 当前点击详情的文章
@@ -384,7 +395,7 @@ export default {
       curQueryWhere: "最新",
 
       // 查询条件
-      searchText:'1'
+      searchText:''
     };
   },
 };
@@ -533,7 +544,7 @@ export default {
     -moz-appearance: none;
     width: 70%;
     height: 33px;
-    font-size: 19px;
+    font-size: 15px;
     float: left;
     color: rgb(0, 0, 0);
     border-radius: 30px;
@@ -622,7 +633,8 @@ export default {
   font-weight: 400;
   font-style: normal;
   font-size: 70%;
-  margin: 5px 80px;
+  margin-top: 5px;
+  margin-left: 15%;
 }
 
 /* 点击后的article-tab */
