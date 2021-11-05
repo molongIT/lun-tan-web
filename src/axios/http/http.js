@@ -28,6 +28,12 @@ axios.interceptors.response.use(response => {
             case 401:
                 // 对 401 错误进行处理
                 break
+            case 403:
+                // token过期
+                sessionStorage.removeItem('Authorization')
+                sessionStorage.removeItem('userInfo')
+                alert("用户登陆已过期，请重新登陆")
+                return Promise.reject(error);
             default:
                 // 如果以上都不是的处理
                 return Promise.reject(error);

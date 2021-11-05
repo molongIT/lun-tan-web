@@ -17,6 +17,13 @@ const store = new Vuex.Store({
         },
         setUser: userInfo => {
             sessionStorage.setItem('userInfo', 'Bearer ' + userInfo);
+        },
+        removeAll: function(){
+            console.log(1111);
+            sessionStorage.removeItem('Authorization')
+            sessionStorage.removeItem('userInfo')
+            this.state.Authorization = ''
+            this.state.userInfo = ''
         }
     },
     getters: {
