@@ -73,12 +73,13 @@ export default {
 }
 
 .right-content {
-  width: 50%;
+  display: inline-block;
+  // width: 50%;
   // height: 80px;
   display: inline-block;
   position: absolute;
-  top: 37%;
-  background-color:skyblue;
+  top: 34%;
+
   
   .content{
     display: inline-block;
