@@ -13,7 +13,7 @@
           <div class="info">
             <img
               class="avator"
-              :src="articles[curShowArticleIndex].articleImg"
+              :src="articles[curShowArticleIndex].avatar"
               alt=""
               v-if="articles.length > 0"
             />

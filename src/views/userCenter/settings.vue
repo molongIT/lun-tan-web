@@ -137,16 +137,19 @@ export default {
 
 <style lang="scss" scoped>
 .settings {
-  border: 1px solid #ebebeb;
-  border-radius: 3px;
+  border: 2px solid #ebebeb;
+  border-radius: 15px;
   transition: 0.2s;
   display: inline-block;
   padding: 20px;
+  box-shadow: 5px 5px 5px rgb(179, 179, 179);
 
   .title {
     font-size: 30px;
     font-weight: bolder;
     margin-bottom: 10px;
+    text-align: left;
+    background-color: #fff;
   }
   .left {
     display: inline-block;
