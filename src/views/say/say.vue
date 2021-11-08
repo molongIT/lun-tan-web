@@ -9,15 +9,14 @@
           src="../../assets/svg/close.svg"
           @click="closeAlert"
         />
-        <div class="article-content-top">
+        <div class="article-content-top"  v-if="articles.length > 0">
           <div class="info">
             <img
               class="avator"
               :src="articles[curShowArticleIndex].avatar"
               alt=""
-              v-if="articles.length > 0"
             />
-            <div class="username" v-if="articles.length > 0">
+            <div class="username">
               {{ articles[curShowArticleIndex].articleAuthor }}
             </div>
           </div>
@@ -30,28 +29,34 @@
             </div>
             <div class="view">
               <img class="icon" src="../../assets/svg/观看.svg" alt="" />
-              <span class="view-nums">99</span>
+              <span class="view-nums">{{articles[curShowArticleIndex].articleViewNums}}</span>
             </div>
           </div>
         </div>
-        <div class="article-content-block">
-          <div class="article-content-title" v-if="articles.length > 0">
+        <div class="article-content-block" v-if="articles.length > 0">
+          <div class="article-content-title">
             {{ articles[curShowArticleIndex].articleTitle }}
           </div>
-          <div class="article-content-word" v-if="articles.length > 0">
+          <div class="article-content-word">
             <MyMarkdown :content="articles[curShowArticleIndex].articleUrl">
             </MyMarkdown>
-            <HR style="margin-top:40px;width:91%;FILTER: progid:DXImageTransform.Microsoft.Shadow(color:yellow,direction:145,strength:15)" width="90%" color=#987cb9 SIZE=1>
+            <HR
+              style="
+                margin-top: 40px;
+                width: 91%;
+                filter: progid:DXImageTransform.Microsoft.Shadow(color:yellow,direction:145,strength:15);
+              "
+              width="90%"
+              color="#987cb9"
+              SIZE="1"
+            >
             </HR>
           </div>
         </div>
       </div>
       <div class="article-tab-comment">
         <div class="comment-publish">
-          <input
-            class="comment-publish-input"
-            v-model="commentTextInput"
-          />
+          <input class="comment-publish-input" v-model="commentTextInput" />
           <button class="comment-publish-btn" @click="publishComment()">
             发表
           </button>
@@ -73,6 +78,7 @@
         </div>
       </div>
     </div>
+
     <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="3">
       <div :class="['article-left']">
         <div :class="['block', { leftTabFixed: isLeftTabFixed }]">
@@ -96,6 +102,7 @@
         </div>
       </div>
     </el-col>
+
     <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="21">
       <div class="article-right" v-show="!isShowArticleTab">
         <div class="article-right-area1">
@@ -121,7 +128,11 @@
         <div class="article-right-area2">
           <div class="search">
             <div class="search-input">
-              <input type="text" placeholder="根据文章标题查询" v-model="searchText"/>
+              <input
+                type="text"
+                placeholder="根据文章标题查询"
+                v-model="searchText"
+              />
             </div>
             <svg
               class="search-icon"
@@ -169,13 +180,18 @@
           </div>
           <div class="hot">
             <div class="hot-title">Hop things</div>
-            <li class="hot-item" v-for="article in hotArticles" :key="article.id">
+            <li
+              class="hot-item"
+              v-for="article in hotArticles"
+              :key="article.id"
+            >
               {{ article.articleTitle }}
             </li>
           </div>
         </div>
       </div>
     </el-col>
+    
   </el-row>
 </template>
 <script>
@@ -235,6 +251,8 @@ export default {
       document.querySelector("body").setAttribute("style", "overflow:hidden;");
       // 根据文章id获取所有相关的评论
       this.queryCommentsByArticeId(this.articles[data].id);
+      // -- 埋点 --
+      this.increaseArticleViewNums(this.articles[data].id);
     },
     closeAlert() {
       this.isShowArticleTab = false;
@@ -250,7 +268,7 @@ export default {
       let articleCategoryId = 1;
       let queryWrapper = 1;
       switch (this.curCategoryTab) {
-        case "今日墙":
+        case "学习":
           articleCategoryId = 1;
           break;
         case "运动":
@@ -259,7 +277,7 @@ export default {
         case "恋爱":
           articleCategoryId = 3;
           break;
-        case "学习":
+        case "今日墙":
           articleCategoryId = 4;
           break;
         case "请教":
@@ -302,8 +320,8 @@ export default {
           _this.articles = result.data;
         });
     },
-    queryHotArticles(){
-       let _this = this;
+    queryHotArticles() {
+      let _this = this;
       this.$http.get("/article/hot").then((e) => {
         _this.hotArticles = e.data.data;
         console.log(_this.hotArticles);
@@ -337,7 +355,7 @@ export default {
         articleCommentText: _this.commentTextInput,
       };
 
-      console.log(_this.$store.getters.getUserInfo + '2');
+      console.log(_this.$store.getters.getUserInfo + "2");
       if (_this.$store.getters.getUserInfo.user != null) {
         console.log(_this.$store.getters.getUserInfo.user);
         ArticleComment.userId = _this.$store.getters.getUserInfo.user.id;
@@ -345,25 +363,34 @@ export default {
       this.$http.post("/article/comment", ArticleComment).then(() => {
         window.alert("评论成功");
         _this.queryCommentsByArticeId(
-          _this.articles[_this.curShowArticleIndex].id,
+          _this.articles[_this.curShowArticleIndex].id
         );
         // 清空输入框
-        _this.commentTextInput = ''
+        _this.commentTextInput = "";
       });
     },
-    searchArticles(){
-      let _this = this
+    searchArticles() {
+      let _this = this;
       console.log(_this.searchText);
       this.$http
-        .get('article/search', {keywords: _this.searchText})
+        .get("article/search", { keywords: _this.searchText })
         .then((result) => {
           _this.articles = result.data;
         });
-    }
+    },
+    // 访问增加Article_view_nums api
+    increaseArticleViewNums(articleId) {
+      let _this = this;
+      console.log(_this.searchText);
+      this.$http
+        .post("article/view/" + articleId)
+        .then(() => {
+        });
+    },
   },
   data() {
     return {
-      category: ["今日墙", "运动", "恋爱", "学习", "请教"],
+      category: ["学习", "运动", "恋爱", "今日墙", "请教"],
       comments: [
         {
           articleCommentId: "1",
@@ -380,7 +407,7 @@ export default {
       commentTextInput: "",
       queryWhere: ["最新", "最热", "收藏"],
       articles: "",
-      hotArticles:"",
+      hotArticles: "",
       tipArray: ["破站第一版发布了~", "请期待我们的版本二~"],
       isShowArticleTab: false,
       // 当前点击详情的文章
@@ -391,11 +418,11 @@ export default {
       clickTabStyle: {
         top: "200px",
       },
-      curCategoryTab: "今日墙",
+      curCategoryTab: "学习",
       curQueryWhere: "最新",
 
       // 查询条件
-      searchText:''
+      searchText: "",
     };
   },
 };
