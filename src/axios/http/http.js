@@ -41,7 +41,8 @@ axios.interceptors.response.use(response => {
     }
 
 })
-axios.defaults.baseURL = 'http://127.0.0.1:8006'
+// console.log(process.env);
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8080' : 'https://loveandshare-1382294-1304511484.ap-shanghai.run.tcloudbase.com'
 export default {
     /**
      * get 请求

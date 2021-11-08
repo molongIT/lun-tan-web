@@ -59,23 +59,23 @@ export default {
       options: [
         {
           value: "1",
-          label: "今日墙",
-        },
-        {
-          value: "2",
           label: "学习",
         },
         {
-          value: "3",
-          label: "考研",
+          value: "2",
+          label: "运动",
         },
         {
-          value: "4",
+          value: "3",
           label: "恋爱",
         },
         {
+          value: "4",
+          label: "今日墙",
+        },
+        {
           value: "5",
-          label: "运动",
+          label: "请教",
         },
       ],
       percent: 0,
