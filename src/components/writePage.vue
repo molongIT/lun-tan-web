@@ -16,6 +16,7 @@
         </el-option>
       </el-select>
       <!-- 上传图片辅助功能 -->
+      <div>
       <input
         class="upload-img"
         type="file"
@@ -23,7 +24,8 @@
         ref="fileUpload"
         @change="uploadFile"
       />
-      <el-progress :percentage="this.percent"></el-progress>
+      <el-progress type="circle" :percentage="this.percent" width="50" text-inside="false"></el-progress>
+      </div>
       <el-button class="add" type="primary" @click="publish">发表</el-button>
     </div>
     <div class="area1">
@@ -180,7 +182,10 @@ export default {
     height: 200px;
     width: 49%;
   }
-
+  .el-progress el-progress--circle{
+      width: 50px !important ;
+      height: 50px;
+  }
   div {
     display: inline-block;
     width: 40%;
