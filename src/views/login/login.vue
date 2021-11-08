@@ -55,8 +55,8 @@ export default {
     return {
       model: "login",
       form: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
       },
     };
   },

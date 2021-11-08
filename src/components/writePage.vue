@@ -1,11 +1,16 @@
 <template>
   <div id="root">
     <div class="top">
-      <input v-model="article.articleTitle" placeholder="请输入文章标题" />
+      <input
+        class="article-title"
+        v-model="article.articleTitle"
+        placeholder="请输入文章标题"
+      />
+
       <el-select
-        class="select"
+        class="article-category-select"
         v-model="article.articleCategoryId"
-        placeholder="请选择"
+        placeholder="请选择文章分类"
       >
         <el-option
           v-for="item in options"
@@ -15,19 +20,29 @@
         >
         </el-option>
       </el-select>
-      <!-- 上传图片辅助功能 -->
-      <div>
-      <input
-        class="upload-img"
-        type="file"
-        value="选择文件"
-        ref="fileUpload"
-        @change="uploadFile"
-      />
-      <el-progress type="circle" :percentage="this.percent" width="50" text-inside="false"></el-progress>
+
+      <div class="upload-img">
+        <!-- 上传图片辅助功能 -->
+        <input
+          class="upload-img-input"
+          type="file"
+          value="上传图片"
+          ref="fileUpload"
+          @change="uploadFile"
+        />
+        <div class="upload-img-progress">
+          <el-progress
+            type="circle"
+            :percentage="this.percent"
+            width="40"
+            text-inside="false"
+          ></el-progress>
+        </div>
       </div>
+
       <el-button class="add" type="primary" @click="publish">发表</el-button>
     </div>
+
     <div class="area1">
       <textarea
         v-model="article.articleDescription"
@@ -56,7 +71,7 @@ export default {
         articleDescription: "",
         articleCategoryId: "",
         articleUrl: "",
-        userId:"",
+        userId: "",
       },
       options: [
         {
@@ -86,7 +101,7 @@ export default {
   methods: {
     publish() {
       // todo:抽取公共方法：是否已经登陆。
-      this.article.userId = this.$store.getters.getUserInfo.user.id
+      this.article.userId = this.$store.getters.getUserInfo.user.id;
       console.log(this.article);
       this.$http
         .post("/article", this.article)
@@ -127,8 +142,9 @@ export default {
           StorageClass: "STANDARD", //官方默认值
           Body: file, // 上传文件对象
           onProgress: function (progressData) {
-           console.log("11");console.log(_this.percent);
-            _this.percent=progressData.percent * 100;
+            console.log("11");
+            console.log(_this.percent);
+            _this.percent = progressData.percent * 100;
           },
         },
         function (err, data) {
@@ -155,10 +171,10 @@ export default {
     },
   },
   created() {
-    if(this.$store.getters.getUserInfo == ''){
-        alert("请先登录")
-         this.$router.push({ path: "login" });
-      }
+    if (this.$store.getters.getUserInfo == "") {
+      alert("请先登录");
+      this.$router.push({ path: "login" });
+    }
   },
 };
 </script>
@@ -167,6 +183,7 @@ export default {
   margin: 0;
   height: 100%;
   color: #333;
+  
 }
 .area1 {
   display: inline-block;
@@ -182,9 +199,9 @@ export default {
     height: 200px;
     width: 49%;
   }
-  .el-progress el-progress--circle{
-      width: 50px !important ;
-      height: 50px;
+  .el-progress el-progress--circle {
+    width: 50px !important ;
+    height: 50px;
   }
   div {
     display: inline-block;
@@ -222,31 +239,46 @@ export default {
 
 .top {
   padding: 0px 10px;
-}
 
-input {
-  -web-kit-appearance: none;
-  -moz-appearance: none;
-  width: 40%;
-  height: 40px;
-  font-size: 19px;
-  float: left;
-  color: rgb(0, 0, 0);
-  border-radius: 10px;
-  padding-left: 6px;
-  margin: 20px 0px;
-}
+  .article-title {
+    -web-kit-appearance: none;
+    -moz-appearance: none;
+    width: 20%;
+    height: 40px;
+    font-size: 19px;
+    float: left;
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    padding-left: 6px;
+    margin: 20px 5px;
+  }
 
-.select {
-  margin: 20px 0px 0px 20px;
-}
+  .article-category-select {
+    line-height: 85px;
+  }
 
-.add {
-  margin-left: 20px;
-}
+  .upload-img {
+    display: inline-block;
+    margin-left: 20px;
+    .upload-img-input {
+      display: inline-block;
+      width: 60%;
+    }
 
-.upload-img {
-  width: 20%;
-  margin-left: 2%;
+    .upload-img-progress {
+      display: inline-block;
+      width: 20%;
+      position: relative;
+      top: 13px;
+    }
+  }
+
+   .add{
+    display: inline-block;
+    margin-left: 2%;
+    width: 15%;
+    line-height: 10px;
+  }
+
 }
 </style>
