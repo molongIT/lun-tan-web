@@ -37,7 +37,8 @@ export default {
      * 初始化ws
      */
     wsInit() {
-      const wsuri = "ws://127.0.0.1:8006/websocket/h5";
+      // const wsuri = process.env.NODE_ENV === 'development' ? 'ws://127.0.0.1:8080/websocket/h5' : 'wss://loveandshare-1382294-1304511484.ap-shanghai.run.tcloudbase.com/websocket/h5'
+      const wsuri = 'ws://loveandshare-1382294-1304511484.ap-shanghai.run.tcloudbase.com/websocket/newh5'
       this.ws = wsuri;
       if (!this.wsIsRun) return;
       // 销毁ws
@@ -68,8 +69,12 @@ export default {
     },
     wsMessageHanler(e) {
       console.log("wsMessageHanler");
-      //const redata = JSON.parse(e.data) //console.log(redata)
-      console.log(e);
+      const nextTodoObj = JSON.parse(e.data);
+      console.log('nextTodoObj=========');
+      console.log(nextTodoObj);
+      // 数组，从倒数第一个开始往前移一个（仅仅内容变换）
+      // 配合隐藏、显示动画
+      this.$emit('listenChildEventForAddObj',nextTodoObj)
     },
     /**
      * ws通信发生错误
