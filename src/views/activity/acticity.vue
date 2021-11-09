@@ -94,7 +94,7 @@
                 v-for="(timeItem,index) in clubs[curClubIndex].clubActivities"
                 :key="timeItem.activityId"
                 class="activity-item-time"
-                :timestamp="timeItem.artivityCreateTime"
+                :timestamp="timeItem.activityCreateTime"
                 placement="top"
                 :color="index===curActivityIndexInClub?'black':''"
               >
@@ -117,10 +117,11 @@ export default {
     MyMarkdown,
   },
   name: "activity",
-  created:{
+  created(){
     // 初始化所有社团
-
+    this.getClubs()
     // 获取第一个社团的所有活动信息
+    this.getActivitiesByClubId(this.clubs[this.curClubIndex].id)
   },
   data() {
     return {
@@ -144,17 +145,17 @@ export default {
             {
               activityId: "222",
               activityName: "迎新活动",
-              artivityCreateTime: "2018/4/3",
+              activityCreateTime: "2018/4/3",
             },
             {
               activityId: "333",
               activityName: "迎新活动2",
-              artivityCreateTime: "2018/4/2",
+              activityCreateTime: "2018/4/2",
             },
             {
               activityId: "444",
               activityName: "迎新活动3",
-              artivityCreateTime: "2018/4/1",
+              activityCreateTime: "2018/4/1",
             },
           ],
         },
@@ -171,17 +172,17 @@ export default {
             {
               activityId: "222",
               activityName: "迎新活动",
-              artivityCreateTime: "2018/4/3",
+              activityCreateTime: "2018/4/3",
             },
             {
               activityId: "333",
               activityName: "迎新活动2",
-              artivityCreateTime: "2018/4/2",
+              activityCreateTime: "2018/4/2",
             },
             {
               activityId: "444",
               activityName: "迎新活动3",
-              artivityCreateTime: "2018/4/1",
+              activityCreateTime: "2018/4/1",
             },
           ],
         },
@@ -197,17 +198,17 @@ export default {
             {
               activityId: "222",
               activityName: "迎新活动",
-              artivityCreateTime: "2018/4/3",
+              activityCreateTime: "2018/4/3",
             },
             {
               activityId: "333",
               activityName: "迎新活动2",
-              artivityCreateTime: "2018/4/2",
+              activityCreateTime: "2018/4/2",
             },
             {
               activityId: "444",
               activityName: "迎新活动3",
-              artivityCreateTime: "2018/4/1",
+              activityCreateTime: "2018/4/1",
             },
           ],
         },
@@ -223,17 +224,17 @@ export default {
             {
               activityId: "222",
               activityName: "迎新活动",
-              artivityCreateTime: "2018/4/3",
+              activityCreateTime: "2018/4/3",
             },
             {
               activityId: "333",
               activityName: "迎新活动2",
-              artivityCreateTime: "2018/4/2",
+              activityCreateTime: "2018/4/2",
             },
             {
               activityId: "444",
               activityName: "迎新活动3",
-              artivityCreateTime: "2018/4/1",
+              activityCreateTime: "2018/4/1",
             },
           ],
         },
@@ -246,7 +247,7 @@ export default {
           activityContent: '速度回家啊点喝酒啊是处女座吗换句话说的哈，dasd has的哈。',
           activityStartTime:'2021/11/8',
           activityEndTime:'2021/11/9',
-          artivityCreateTime: "2018/4/3",
+          activityCreateTime: "2018/4/3",
           userId:'1232',
           username:'三三学长',
           userPhone:'18823748787'
@@ -258,7 +259,7 @@ export default {
           activityContent: '速度回家啊点喝酒啊是处女座吗换句话说的哈，dasd has的哈。',
           activityStartTime:'2021/11/8',
           activityEndTime:'2021/11/9',
-          artivityCreateTime: "2018/4/3",
+          activityCreateTime: "2018/4/3",
           userId:'1232',
           username:'三三学长',
           userPhone:'18823748787'
@@ -270,7 +271,7 @@ export default {
           activityContent: '速度回家啊点喝酒啊，都撒开多久啊是空间大数据，大手大脚卡是多久。大三大四的，是处女座吗换句话说的哈，dasd has的哈。',
           activityStartTime:'2021/11/8',
           activityEndTime:'2021/11/9',
-          artivityCreateTime: "2018/4/3",
+          activityCreateTime: "2018/4/3",
           userId:'1232',
           username:'三三学长',
           userPhone:'18823748787'
@@ -279,6 +280,23 @@ export default {
     };
   },
   methods: {
+    //,{clubId:this.clubs[this.curClubIndex].id}
+    getClubs(){
+      let _this = this
+      this.$http.get('/club')
+      .then(res=>{
+        console.log(res.data.data);
+        _this.clubs = res.data.data
+      })
+    },
+    getActivitiesByClubId(clubId){
+      let _this = this
+      this.$http.get('/club/activities',{clubId:clubId})
+      .then(res=>{
+        console.log(res.data.data);
+      })
+        
+    },
     showActivityInfo(activityIndex){
       // 对当前活动介绍号码赋新值
       this.curActivityIndexInClub = activityIndex;
@@ -290,8 +308,8 @@ export default {
     changeClub(index){
       // 记录当前club
       this.curClubIndex = index
-      // 获取该club的所有活动info
-      // 赋新数据
+      // 获取该club的所有活动info,并赋新数据
+      this.getActivitiesByClubId(this.clubs[index].id)
       // 当前活动index恢复0
       this.curActivityIndexInClub = 0
     }

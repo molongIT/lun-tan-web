@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       currentTab: "畅所言",
-      tabs: ["首页", "畅所言", "酷Cool", "活动"],
+      tabs: ["首页", "畅所言", "活动", "酷Cool"],
       isShowTab: false,
     };
   },

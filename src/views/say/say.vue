@@ -442,13 +442,13 @@ export default {
   min-height: 36px;
 }
 
-/* 左边导航 */
+/* 左边分类导航 */
 .article-left {
   background-color: white;
   width: 175px;
   height: 1500px;
   position: relative;
-  top: 30px;
+  // top: 30px;
   left: 30px;
 }
 
@@ -457,7 +457,7 @@ export default {
   height: 100%;
   background-color: rgba(246, 249, 252, 1);
   position: relative;
-  top: 20px;
+  // top: 20px;
   margin: 0 auto;
   border-radius: 32px 0px 0px 32px;
 }
@@ -465,7 +465,7 @@ export default {
 .leftTabFixed {
   position: fixed !important ;
   width: 140px !important ;
-  top: 18px !important ;
+  top: 2px !important ;
   left: 45px !important ;
   z-index: 14;
 }
@@ -494,11 +494,11 @@ export default {
   font-size: 20px !important;
 }
 
+// 文章+tip
 .article-right {
   display: inline-block;
   background: rgb(249, 249, 249);
   position: relative;
-  top: 50px;
   padding: auto;
   width: 230%;
   border-radius: 32px;
