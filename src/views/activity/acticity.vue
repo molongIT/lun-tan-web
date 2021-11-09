@@ -56,28 +56,28 @@
               ></MyMarkdown>
             </div>
 
-            <div class="activity-info" v-if="activitys.length>0">
+            <div class="activity-info" v-if="activities">
               <div class="activity-title">活动介绍</div>
               <div class="split-line"></div>
               <div class="activity-name activity-info-item-block">
                 <span class="activity-label-name">活动名称:</span>
-                <span>{{activitys[curActivityIndexInClub].activityName}}</span>
+                <span>{{activities[curActivityIndexInClub].activityName}}</span>
               </div>
                <div class="activity-date activity-info-item-block">
                 <span class="activity-label-name">活动时间:</span>
-                <span>{{activitys[curActivityIndexInClub].activityStartTime}} - {{activitys[curActivityIndexInClub].activityEndTime}}</span>
+                <span>{{activities[curActivityIndexInClub].activitiestartTime}} - {{activities[curActivityIndexInClub].activityEndTime}}</span>
               </div>
               <div class="activity-username activity-info-item-block">
                 <span class="activity-label-name">联系人:</span>
-                <span>{{activitys[curActivityIndexInClub].username}}</span>
+                <span>{{activities[curActivityIndexInClub].username}}</span>
               </div>
               <div class="activity-info-item-block">
                 <span class="activity-label-name">联系方式:</span>
-                <span>{{activitys[curActivityIndexInClub].userPhone}}</span>
+                <span>{{activities[curActivityIndexInClub].userPhone}}</span>
               </div>
               <div class="activity-content-block activity-info-item-block">
                 <span class="activity-content-label">活动内容:</span>
-                <span class="activity-content">{{activitys[curActivityIndexInClub].activityContent}}</span>
+                <span class="activity-content">{{activities[curActivityIndexInClub].activityContent}}</span>
               </div>
             </div>
 
@@ -119,9 +119,11 @@ export default {
   name: "activity",
   created(){
     // 初始化所有社团
-    this.getClubs()
+    var firstIndexClubId = this.getClubs()
+    console.log(77);
+    console.log(firstIndexClubId);
     // 获取第一个社团的所有活动信息
-    this.getActivitiesByClubId(this.clubs[this.curClubIndex].id)
+    this.getActivitiesByClubId(firstIndexClubId)
   },
   data() {
     return {
@@ -239,13 +241,13 @@ export default {
           ],
         },
       ],
-      activitys:[
+      activities:[
         {
           activityId: "222",
           activityName: "迎新活动",
           acitivityAddress: '东一 —— 东九',
           activityContent: '速度回家啊点喝酒啊是处女座吗换句话说的哈，dasd has的哈。',
-          activityStartTime:'2021/11/8',
+          activitiestartTime:'2021/11/8',
           activityEndTime:'2021/11/9',
           activityCreateTime: "2018/4/3",
           userId:'1232',
@@ -257,7 +259,7 @@ export default {
           activityName: "迎新活动2",
           acitivityAddress: '东一 —— 东九',
           activityContent: '速度回家啊点喝酒啊是处女座吗换句话说的哈，dasd has的哈。',
-          activityStartTime:'2021/11/8',
+          activitiestartTime:'2021/11/8',
           activityEndTime:'2021/11/9',
           activityCreateTime: "2018/4/3",
           userId:'1232',
@@ -269,7 +271,7 @@ export default {
           activityName: "建东社区趣味中国节",
           acitivityAddress: '东一 —— 东九',
           activityContent: '速度回家啊点喝酒啊，都撒开多久啊是空间大数据，大手大脚卡是多久。大三大四的，是处女座吗换句话说的哈，dasd has的哈。',
-          activityStartTime:'2021/11/8',
+          activitiestartTime:'2021/11/8',
           activityEndTime:'2021/11/9',
           activityCreateTime: "2018/4/3",
           userId:'1232',
@@ -282,18 +284,24 @@ export default {
   methods: {
     //,{clubId:this.clubs[this.curClubIndex].id}
     getClubs(){
+      var firstIndexClubId = ''
       let _this = this
       this.$http.get('/club')
       .then(res=>{
-        console.log(res.data.data);
         _this.clubs = res.data.data
+        firstIndexClubId = res.data.data[0].id;
       })
+      return firstIndexClubId;
     },
     getActivitiesByClubId(clubId){
+      console.log(111);
+      console.log(clubId);
       let _this = this
       this.$http.get('/club/activities',{clubId:clubId})
       .then(res=>{
-        console.log(res.data.data);
+        console.log(22);
+        console.log(res);
+        _this.activities = res.data.data
       })
         
     },
@@ -306,6 +314,8 @@ export default {
       // 赋新数据
     },
     changeClub(index){
+      // 清空articities
+      this.activities = null
       // 记录当前club
       this.curClubIndex = index
       // 获取该club的所有活动info,并赋新数据
