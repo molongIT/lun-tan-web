@@ -176,36 +176,36 @@ export default {
         // 初始化位置
         var positions = [
           {
-            top: "0px",
+            top: "30px",
             left: "0px",
           },
           {
-            top: "30px",
-            left: "30px",
+            top: "300px",
+            left: "10px",
           },
           {
-            top: "80px",
-            left: "80px",
+            top: "200px",
+            left: "180px",
           },
           {
-            top: "80px",
-            left: "150px",
+            top: "280px",
+            left: "450px",
           },
           {
             left: "400px",
-            bottom: "100px",
+            bottom: "200px",
           },
           {
-            left: "430px",
+            left: "1000px",
             bottom: "300px",
           },
           {
-            left: "500px",
-            bottom: "500px",
+            left: "700px",
+            bottom: "260px",
           },
           {
-            left: "500px",
-            bottom: "700px",
+            left: "800px",
+            bottom: "30px",
           },
         ];
         for (let i = 0; i < _this.card.length; i++) {
@@ -234,8 +234,13 @@ export default {
       this.isShowWindow = false;
     },
     publish() {
+      let _this = this
       // 会报错！！
       const user = this.$store.getters.getUserInfo.user;
+      if(user == null){
+        alert('请先登录')
+        return;
+      }
       var nextTodoDto = {
         userId: user.id,
         content: this.todoInput,
@@ -244,6 +249,8 @@ export default {
         .post("/nextTodo", nextTodoDto)
         .then((res) => {
           console.log(res);
+          _this.isShowWindow = false
+          alert("发表todo成功～")
         })
         .catch((err) => {
           console.log(err);
@@ -260,11 +267,11 @@ export default {
 
 <style lang="scss" scoped>
 .cool-block {
-  width: 98%;
+  overflow: hidden;
+  width: 100%;
   height: 600px;
-  background-color: #fbf1df;
-  margin: 5px auto;
-  border-radius: 20px;
+  background-color: #e9f1f8;
+  // border-radius: 20px;
 }
 
 .decision {
@@ -307,7 +314,7 @@ export default {
 }
 
 .add-line {
-  width: 500px;
+  width: 403px;
   height: 41px;
   background: inherit;
   background-color: rgba(211, 209, 209, 1);
@@ -338,10 +345,10 @@ export default {
 }
 
 .card-item {
-  background-color: #e0eaf1;
+  background-color: #d6e3ec;
   width: 230px;
-  height: 100px;
-  position: relative;
+  height: 130px;
+  position: absolute;
   border-radius: 20px 50px 50px 35px;
 
   .item-img {

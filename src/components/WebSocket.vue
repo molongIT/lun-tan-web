@@ -2,7 +2,9 @@
     websocket后期功能拓展使用预留。
  -->
 <template>
-    <el-button @click="sendDataToServer">测试：给后端发送消息。</el-button>
+    <div>
+       <!-- <el-button @click="sendDataToServer">测试：给后端发送消息。</el-button> -->
+    </div>
 </template>
 <script>
 export default {
@@ -37,8 +39,14 @@ export default {
      * 初始化ws
      */
     wsInit() {
-      // const wsuri = process.env.NODE_ENV === 'development' ? 'ws://127.0.0.1:8080/websocket/h5' : 'wss://loveandshare-1382294-1304511484.ap-shanghai.run.tcloudbase.com/websocket/h5'
-      const wsuri = 'ws://loveandshare-1382294-1304511484.ap-shanghai.run.tcloudbase.com/websocket/newh5'
+      let wsuri = process.env.NODE_ENV === 'development' ? 'ws://127.0.0.1:8080/websocket/' : 'wss://loveandshare-1382294-1304511484.ap-shanghai.run.tcloudbase.com/websocket/'
+      // const wsuri = 'ws://loveandshare-1382294-1304511484.ap-shanghai.run.tcloudbase.com/websocket/newh5'
+      let user = this.$store.getters.getUserInfo.user;
+      if(user!=null){
+        wsuri = wsuri + user.id + Math.floor(Math.random()*10000)
+      }else{
+        return;
+      }
       this.ws = wsuri;
       if (!this.wsIsRun) return;
       // 销毁ws

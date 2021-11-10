@@ -26,7 +26,7 @@
       </el-carousel-item>
     </el-carousel>
     <div class="split-line"></div>
-    <div class="area1">待设计</div>
+    <div class="area1"></div>
     <div class="split-line"></div>
     <div class="about">
       <div class="about-left">
