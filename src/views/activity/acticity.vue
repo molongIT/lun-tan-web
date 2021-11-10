@@ -1,6 +1,6 @@
 <!-- 活动tab页面 -->
 <template>
-  <div class="activity">
+  <div class="activity" v-if="this.clubs.length>0">
     <div class="layout-top">
       <div class="top-svg">活动</div>
       <div class="join-text" @click="isShowContact = !isShowContact">
@@ -56,7 +56,7 @@
               ></MyMarkdown>
             </div>
 
-            <div class="activity-info" v-if="activities">
+            <div class="activity-info" v-if="activities.length > 0">
               <div class="activity-title">活动介绍</div>
               <div class="split-line"></div>
               <div class="activity-name activity-info-item-block">
@@ -118,12 +118,12 @@ export default {
   },
   name: "activity",
   created(){
+    this.clubs = []
     // 初始化所有社团
-    var firstIndexClubId = this.getClubs()
-    console.log(77);
-    console.log(firstIndexClubId);
+    this.getClubs()
     // 获取第一个社团的所有活动信息
-    this.getActivitiesByClubId(firstIndexClubId)
+    // 待修改bug
+    this.getActivitiesByClubId('10001')
   },
   data() {
     return {
@@ -278,29 +278,24 @@ export default {
           username:'三三学长',
           userPhone:'18823748787'
         },
-      ]
+      ],
     };
   },
   methods: {
     //,{clubId:this.clubs[this.curClubIndex].id}
     getClubs(){
-      var firstIndexClubId = ''
+      // const firstIndexClubId = '222'
       let _this = this
       this.$http.get('/club')
       .then(res=>{
         _this.clubs = res.data.data
-        firstIndexClubId = res.data.data[0].id;
       })
-      return firstIndexClubId;
     },
     getActivitiesByClubId(clubId){
-      console.log(111);
-      console.log(clubId);
       let _this = this
       this.$http.get('/club/activities',{clubId:clubId})
       .then(res=>{
-        console.log(22);
-        console.log(res);
+        console.log(res.data.data);
         _this.activities = res.data.data
       })
         
@@ -315,7 +310,7 @@ export default {
     },
     changeClub(index){
       // 清空articities
-      this.activities = null
+      this.activities = []
       // 记录当前club
       this.curClubIndex = index
       // 获取该club的所有活动info,并赋新数据
