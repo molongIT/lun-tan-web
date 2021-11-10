@@ -64,6 +64,7 @@ import indexContent from "../indexContent/indexContent.vue";
 import userCenter from "../userCenter/userCenter.vue";
 import activity from "../activity/acticity.vue";
 import writePage from "../../components/writePage.vue";
+import crawl from "../crawl/crawl.vue";
 
 export default {
   components: {
@@ -73,12 +74,13 @@ export default {
     userCenter,
     activity,
     writePage,
+    crawl
   },
   name: "Index",
   data() {
     return {
       currentTab: "畅所言",
-      tabs: ["首页", "畅所言", "活动", "酷Cool"],
+      tabs: ["首页", "畅所言", "活动", "酷Cool","crawl"],
       isShowTab: false,
     };
   },
@@ -100,6 +102,10 @@ export default {
           break;
         case "userCenter":
           resultComponent = "userCenter";
+          break;
+        case "crawl":
+          resultComponent = "crawl";
+          break;
       }
       return resultComponent;
     },

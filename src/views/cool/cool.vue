@@ -274,6 +274,7 @@ export default {
   // border-radius: 20px;
 }
 
+// 文字
 .decision {
   position: relative;
   top: 50px;
@@ -284,6 +285,10 @@ export default {
   font-size: 30px;
 
   transform: rotate(2deg);
+}
+
+.cool_add{
+  cursor: pointer;
 }
 
 .go {
