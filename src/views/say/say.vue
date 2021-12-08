@@ -9,7 +9,7 @@
           src="../../assets/svg/close.svg"
           @click="closeAlert"
         />
-        <div class="article-content-top"  v-if="articles.length > 0">
+        <div class="article-content-top" v-if="articles.length > 0">
           <div class="info">
             <img
               class="avator"
@@ -29,7 +29,9 @@
             </div>
             <div class="view">
               <img class="icon" src="../../assets/svg/观看.svg" alt="" />
-              <span class="view-nums">{{articles[curShowArticleIndex].articleViewNums}}</span>
+              <span class="view-nums">{{
+                articles[curShowArticleIndex].articleViewNums
+              }}</span>
             </div>
           </div>
         </div>
@@ -66,15 +68,15 @@
           v-for="comment in this.comments"
           :key="comment.articleCommentId"
         >
-          <div class="comment-top">
-            <div class="comment-img-div">
-              <img class="comment-img" :src="comment.userAvatar" alt="" />
-            </div>
-            <div class="comment-username">{{ comment.username }}</div>
+          <div class="comment-left-img">
+            <img class="comment-img" :src="comment.userAvatar" alt="" />
           </div>
 
-          <div class="comment-text">{{ comment.articleCommentText }}</div>
-          <div class="comment-date">{{ comment.createTime }}</div>
+          <div class="comment-right-img">
+            <div class="comment-username">{{ comment.username }}</div>
+            <div class="comment-text">{{ comment.articleCommentText }}</div>
+            <div class="comment-date">{{ comment.createTime }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -191,7 +193,6 @@
         </div>
       </div>
     </el-col>
-    
   </el-row>
 </template>
 <script>
@@ -382,10 +383,7 @@ export default {
     increaseArticleViewNums(articleId) {
       let _this = this;
       console.log(_this.searchText);
-      this.$http
-        .post("article/view/" + articleId)
-        .then(() => {
-        });
+      this.$http.post("article/view/" + articleId).then(() => {});
     },
   },
   data() {
@@ -798,57 +796,50 @@ export default {
   }
 
   .comment {
+    display: inline-block;
     width: 80%;
     margin: 14px auto;
 
-    .comment-top {
-      display: block;
-      width: 100%;
-      margin: 2px;
+    .comment-left-img {
+      float: left;
+      width: 32px;
+      height: 100%;
 
-      .comment-img-div {
+      .comment-img {
         display: inline-block;
         width: 32px;
         height: 32px;
-        .comment-img {
-          display: inline-block;
-          width: 100%;
-          height: auto;
-          border-radius: 50%;
-          opacity: 1;
-          margin-top: 5px;
-        }
+        border-radius: 50%;
       }
+    }
+
+    .comment-right-img {
+      padding-left: 18%;
       .comment-username {
         font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
           sans-serif;
         font-size: 14px;
         font-weight: 500;
         display: inline-block;
-        margin-left: 10px;
-        margin-top: 6%;
-        position: absolute;
+        line-height: 35px;
       }
-    }
-    .comment-text {
-      display: block;
-      color: #000;
-      padding-left: 40px;
-      font-size: 14px;
-      font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
-        sans-serif;
-      padding-bottom: 5px;
-    }
+      .comment-text {
+        display: block;
+        color: #000;
+        font-size: 14px;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        padding-bottom: 10px;
+      }
 
-    .comment-date {
-      display: block;
-      padding-left: 40px;
-      font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
-        sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 16px;
-      color: #6e6d7a;
+      .comment-date {
+        display: block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+          sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        color: #6e6d7a;
+      }
     }
   }
 }
