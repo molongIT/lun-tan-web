@@ -1,6 +1,10 @@
 <template>
   <!--  tab 分三块主内容显示 -->
   <div>
+    <!-- 虎年 -->
+    <div class="huhu">
+      <img src="../../assets/huhu.jpeg" alt="">
+    </div>
     <div class="top">
       <div class="top-left">
         <div v-for="tab in tabs" v-bind:key="tab">
@@ -260,5 +264,22 @@ export default {
     right: 6%;
     z-index: 15;
   }
+
+  
+
 }
+
+.huhu{
+    position: absolute;
+    top: 20px;
+    left: 2px;
+    width: 80px;
+
+    img{
+      width: 100%;
+      height: 100%;
+
+    }
+
+  }
 </style>
