@@ -228,6 +228,7 @@ export default {
       console.log(this.card);
     },
     showWindow() {
+      this.todoInput = '';
       this.isShowWindow = true;
     },
     closeWindow() {
