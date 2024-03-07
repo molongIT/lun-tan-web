@@ -23,5 +23,10 @@ body {
   margin: 0px 0px 0px 0px;
   padding: 0;
 }
+@media screen and (max-width: 300px) {
+    body {
+        background-color:rgb(16, 221, 153);
+    }
+}
 </style>
 

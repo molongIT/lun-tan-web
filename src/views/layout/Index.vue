@@ -3,7 +3,7 @@
   <div>
     <!-- 虎年 -->
     <div class="huhu">
-      <img src="../../assets/huhu.jpeg" alt="">
+      <img src="../../assets/兔子.png" alt="">
     </div>
     <div class="top">
       <div class="top-left">
@@ -32,7 +32,7 @@
             </div>
             <div class="hover-tab-center hover-tab-item" @click="toUserCenter">
               <img src="../../assets/svg/User.svg" alt="" />
-              <span>用户中心</span>
+              <span>个人中心</span>
             </div>
             <div class="hover-tab-logout hover-tab-item">
               <img src="../../assets/svg/Log_Out.svg" alt="" />
@@ -69,6 +69,8 @@ import userCenter from "../userCenter/userCenter.vue";
 import activity from "../activity/acticity.vue";
 import writePage from "../../components/writePage.vue";
 import crawl from "../crawl/crawl.vue";
+import login from "../login/login.vue";
+import chat from "../chat/chat.vue";
 
 export default {
   components: {
@@ -78,13 +80,16 @@ export default {
     userCenter,
     activity,
     writePage,
-    crawl
+    crawl,
+    login,
+    chat
   },
   name: "Index",
   data() {
     return {
-      currentTab: "畅所言",
-      tabs: ["首页", "畅所言", "活动", "酷Cool","crawl"],
+      currentTab: "首页",
+      // tabs: ["首页", "畅所言", "活动", "酷Cool","crawl"],
+      tabs: ["首页","登录/注册","写文章","个人中心","myChat"],
       isShowTab: false,
     };
   },
@@ -92,13 +97,14 @@ export default {
     currentTabComponent() {
       var resultComponent;
       switch (this.currentTab) {
+        /**
         case "首页":
           resultComponent = "index-content";
           break;
         case "畅所言":
           resultComponent = "say";
           break;
-        case "酷Cool":
+        case "酷Cool": //酷Cool
           resultComponent = "cool";
           break;
         case "活动":
@@ -109,6 +115,22 @@ export default {
           break;
         case "crawl":
           resultComponent = "crawl";
+          break;
+        **/
+        case "首页":
+          resultComponent = "say";
+          break;
+        case "登录/注册":
+          resultComponent = "login";
+          break;
+        case "写文章":
+          resultComponent = "writePage";
+          break;
+        case "个人中心":
+          resultComponent = "userCenter";
+          break;
+        case "myChat":
+          resultComponent = "chat";
           break;
       }
       return resultComponent;
@@ -133,7 +155,7 @@ export default {
       this.isShowTab = false;
     },
     toUserCenter() {
-      this.currentTab = "userCenter";
+      this.currentTab = "个人中心";
     },
     toWritePage() {
       this.$router.push({ path: "writePage" });
@@ -163,7 +185,7 @@ export default {
 .tab {
   display: inline-block;
   width: 100%;
-  height: 100%;
+  height: 80%;
 }
 .tab-item1 {
   color: black;
@@ -271,9 +293,9 @@ export default {
 
 .huhu{
     position: absolute;
-    top: 20px;
+    top: 15px;
     left: 2px;
-    width: 80px;
+    width: 120px;
 
     img{
       width: 100%;
@@ -281,5 +303,6 @@ export default {
 
     }
 
-  }
+ }
+
 </style>

@@ -19,6 +19,11 @@
         </div>
 
         <div class="row-input">
+          <span class="label">年龄</span>
+          <input type="text" />
+        </div>
+
+        <div class="row-input">
           <span class="label">密码</span>
           <input type="text" />
         </div>

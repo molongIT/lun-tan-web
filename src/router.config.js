@@ -5,6 +5,7 @@ import say from './views/say/say.vue'
 import writePage from './components/writePage.vue'
 import userCenter from './views/userCenter/userCenter.vue'
 import settings from './views/userCenter/settings.vue'
+import chat from './views/chat/chat.vue'
 
 export default {
     routes: [{
@@ -26,6 +27,10 @@ export default {
         {
             path: '/writePage',
             component: writePage
+        },
+        {
+            path: '/chat',
+            component: chat
         },
         {
             path: '/',

@@ -335,6 +335,8 @@ export default {
 
   position: relative;
   top: -150px;
+  // 统一一个字体大小
+  font-size: 17px;
 
   // :nth-child(1) {
   //   background-color: red;
@@ -352,10 +354,11 @@ export default {
 
 .card-item {
   background-color: #d6e3ec;
-  width: 230px;
-  height: 130px;
+  width: 250px;
+  height: 180px;
   position: absolute;
   border-radius: 20px 50px 50px 35px;
+  // padding
 
   .item-img {
     width: 15%;
@@ -369,7 +372,7 @@ export default {
     display: inline-block;
     position: relative;
     top: -15px;
-    font-size: 17px;
+    // font-size: 17px;
   }
 
   .item-content {
@@ -378,7 +381,6 @@ export default {
     word-wrap: break-word;
     font-family: "楷体", sans-serif;
     font-weight: 400;
-    font-size: 19px;
     text-indent: 15px;
     padding: 5px;
     top: 30px;

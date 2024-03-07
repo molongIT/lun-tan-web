@@ -26,6 +26,7 @@
       ></el-input>
       <el-input
         class="input"
+        type="password"
         placeholder="请输入密码"
         v-model="form.password"
       ></el-input>

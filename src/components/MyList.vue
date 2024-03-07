@@ -10,6 +10,9 @@
           </div>
           <div class="box-head-title">{{ item.articleTitle }}</div>
         </div>
+        <div class="box-tag">
+          <span v-for="item1 in item.categoryNameArr"  :key="item1" class="box-tag-item">{{item1}}</span>
+        </div>
         <div class="box-content">
           <MyMarkdown
             class="box-content-word"
@@ -58,7 +61,7 @@ export default {
   padding: 10px 10px 0px 10px;
   width: 90%;
   height: 18%;
-  border-bottom: rgb(255 236 236) 1px solid;
+  /* border-bottom: rgb(255 236 236) 1px solid; */
 }
 .box--head-img {
   float: left;
@@ -94,7 +97,7 @@ export default {
   position: relative;
 }
 .box-content {
-  width: 970px;
+  width: 770px;
   height: 350px;
   /* background-color: pink; */
   position: relative;
@@ -104,5 +107,24 @@ export default {
   text-align: left;
   font-size: 15px;
   height: 350px;
+}
+.box-tag{
+  background-color:hsl(0, 0%, 96%);
+  padding: 6px 25px;
+  /* width: 40%; */
+  /* float: right; */
+}
+.box-tag-item{
+  box-sizing: border-box;
+  margin-right: 8px;
+  padding: 3px 6px;
+  font-size: 16px;
+  background-color: #fdf9f9;
+  color: #3d94ebcb;
+  border: 1px solid #eaeaef;
+  height: 24px;
+  line-height: 17px;
+  border-radius: 4px;
+  display: inline-block;
 }
 </style>

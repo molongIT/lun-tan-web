@@ -174,14 +174,14 @@
               ></path>
             </svg>
           </div>
-          <div class="tips">
-            <div class="tips-item-title">Tip:</div>
-            <li class="tips-item" v-for="item in tipArray" :key="item">
+          <!-- <div class="tips">
+            <div class="tips-item-title">最新动态:</div>
+            <li class="tips-item" v-for="item in actionArray" :key="item">
               {{ item }}
             </li>
-          </div>
+          </div> -->
           <div class="hot">
-            <div class="hot-title">Hop things</div>
+            <div class="hot-title">热榜</div>
             <li
               class="hot-item"
               v-for="article in hotArticles"
@@ -254,6 +254,7 @@ export default {
       this.queryCommentsByArticeId(this.articles[data].id);
       // -- 埋点 --
       this.increaseArticleViewNums(this.articles[data].id);
+      // 
     },
     closeAlert() {
       this.isShowArticleTab = false;
@@ -266,35 +267,50 @@ export default {
       let _this = this;
       // api获取所有的文章列表
       //  携带articleCategoryId、queryWrapper
-      let articleCategoryId = 1;
+      let articleCategoryId = 0;
       let queryWrapper = 1;
       switch (this.curCategoryTab) {
+        case "全部":
+          articleCategoryId = 0;
+          break;
         case "学习":
           articleCategoryId = 1;
           break;
         case "运动":
           articleCategoryId = 2;
           break;
-        case "恋爱":
+        case "书籍":
           articleCategoryId = 3;
           break;
-        case "今日墙":
+        case "电影":
           articleCategoryId = 4;
           break;
-        case "请教":
+        case "纪录片":
           articleCategoryId = 5;
           break;
+        case "旅行":
+          articleCategoryId = 6;
+          break;
+        case "音乐":
+          articleCategoryId = 7;
+          break;  
+        case "医疗科普":
+          articleCategoryId = 8;
+          break;  
+        case "比赛":
+          articleCategoryId = 9;
+          break;  
       }
       switch (this.curQueryWhere) {
         case "最新":
           queryWrapper = 1;
           break;
-        case "最热":
+        case "推荐":
           queryWrapper = 2;
           break;
-        case "收藏":
-          queryWrapper = 3;
-          break;
+        // case "收藏":
+        //   queryWrapper = 3;
+        //   break;
       }
       var articleQueryDto = {
         articleCategoryId: articleCategoryId,
@@ -388,7 +404,8 @@ export default {
   },
   data() {
     return {
-      category: ["学习", "运动", "恋爱", "今日墙", "请教"],
+      category: ["全部","学习", "运动", "书籍", "电影", "纪录片","旅行","音乐", "医疗科普", "比赛"],
+      
       comments: [
         {
           articleCommentId: "1",
@@ -403,10 +420,10 @@ export default {
         },
       ],
       commentTextInput: "",
-      queryWhere: ["最新", "最热", "收藏"],
+      queryWhere: ["推荐", "最新"],
       articles: "",
       hotArticles: "",
-      tipArray: ["破站第一版发布了~", "请期待我们的版本二~"],
+      actionArray: ["暂无"],
       isShowArticleTab: false,
       // 当前点击详情的文章
       curShowArticleIndex: 0,
@@ -416,8 +433,8 @@ export default {
       clickTabStyle: {
         top: "200px",
       },
-      curCategoryTab: "学习",
-      curQueryWhere: "最新",
+      curCategoryTab: "全部",
+      curQueryWhere: "推荐",
 
       // 查询条件
       searchText: "",
@@ -484,7 +501,7 @@ export default {
   font-size: 18px;
   height: 61px;
   text-align: center;
-  margin-top: 70px;
+  margin-top: 15px;
 }
 
 .category-item-ative {
@@ -633,6 +650,8 @@ export default {
   box-shadow: 3px 3px 15px 1px #c7c6c6;
   font-size: 28px;
   margin-top: 40px;
+  border-radius: 127px;
+  border-radius: 10px;
 }
 
 .hot-title {
@@ -841,6 +860,13 @@ export default {
         color: #6e6d7a;
       }
     }
+  }
+}
+
+
+@media screen and(max-width: 800px){
+  .article-right-area2{
+    display: none;
   }
 }
 </style>

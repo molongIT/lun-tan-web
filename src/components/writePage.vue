@@ -9,9 +9,11 @@
 
       <el-select
         class="article-category-select"
-        v-model="article.articleCategoryId"
+        v-model="article.categoryIdArr"
         placeholder="请选择文章分类"
+        multiple
       >
+
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -19,6 +21,7 @@
           :value="item.value"
         >
         </el-option>
+
       </el-select>
 
       <div class="upload-img">
@@ -69,7 +72,7 @@ export default {
       article: {
         articleTitle: "",
         articleDescription: "",
-        articleCategoryId: "",
+        categoryIdArr: [],
         articleUrl: "",
         userId: "",
       },
@@ -84,15 +87,31 @@ export default {
         },
         {
           value: "3",
-          label: "恋爱",
+          label: "书籍",
         },
         {
           value: "4",
-          label: "今日墙",
+          label: "电影",
         },
         {
           value: "5",
-          label: "请教",
+          label: "纪录片",
+        },
+        {
+          value: "6",
+          label: "旅行",
+        },
+        {
+          value: "7",
+          label: "音乐",
+        },
+        {
+          value: "8",
+          label: "医疗科普",
+        },
+        {
+          value: "9",
+          label: "比赛",
         },
       ],
       percent: 0,
